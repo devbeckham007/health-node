@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    crossorigin="anonymous"
+  />
+  <title>Prescriptions</title>
+</head>
+<body class="container mt-4">
+  <h2 class="mb-3">Prescriptions for {{message.username}}</h2>
+
+  {{#if prescriptions.length}}
+  <ul class="list-group mb-4">
+    {{#each prescriptions}}
+      <li class="list-group-item">
+        <strong>{{medicineName}}</strong> — {{dosage}} — {{frequency}}
+        <br>
+        Patient: {{patient.username}} ({{patient.email}})
+        <br>
+        Prescribed by: {{doctor.username}} ({{doctor.email}})
+        <br>
+        Notes: {{notes}}
+        <br>
+        Referral Code: {{referralCode}}
+
+        {{#ifEquals ../message.role "doctor"}}
+          <!-- Doctor update/delete -->
+          <form action="/prescriptions/update/{{this._id}}" method="POST" class="mt-2">
+            <!-- update fields -->
+          </form>
+          <form action="/prescriptions/update/{{this._id}}" method="POST" class="mt-2">
+            {{!-- <input type="hidden" name="_method" value="PUT" /> --}}
+            <input type="hidden" name="patientId" value="{{message.id}}">
+            <input type="text" name="medicineName" placeholder="Medicine Name" required class="form-control mb-1" />
+            <input type="text" name="dosage" placeholder="Dosage" required class="form-control mb-1" />
+            <input type="text" name="frequency" placeholder="Frequency" required class="form-control mb-1" />
+            <input type="date" name="startDate" class="form-control mb-1" />
+            <input type="date" name="endDate" class="form-control mb-1" />
+            <textarea name="notes" placeholder="Notes" class="form-control mb-1"></textarea>
+            <button type="submit" class="btn btn-primary btn-sm">Update</button>
+          </form>
+          <form action="/prescriptions/delete/{{this._id}}" method="POST" class="mt-2">
+            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+          </form>
+        {{/ifEquals}}
+
+        {{#ifEquals ../message.role "pharmacist"}}
+          <!-- Pharmacist update (requires referral code) -->
+          <form action="/prescriptions/update/{{this._id}}" method="POST" class="mt-2">
+          <input type="hidden" name="patientId" value="{{message.id}}">
+    <input type="text" name="medicineName" placeholder="Medicine Name" required class="form-control mb-1" />
+    <input type="text" name="dosage" placeholder="Dosage" required class="form-control mb-1" />
+    <input type="text" name="frequency" placeholder="Frequency" required class="form-control mb-1" />
+    <input type="date" name="startDate" class="form-control mb-1" />
+    <input type="date" name="endDate" class="form-control mb-1" />
+    <textarea name="notes" placeholder="Notes" class="form-control mb-1"></textarea>
+             <input type="text" name="referralCode" placeholder="Referral Code (pharmacist)" class="form-control mb-1" />
+            <button type="submit" class="btn btn-warning btn-sm">Update</button>
+          </form>
+        {{/ifEquals}}
+      </li>
+    {{/each}}
+  </ul>
+{{else}}
+  <p>No prescriptions found.</p>
+{{/if}}
+
+{{#ifEquals message.role "doctor"}}
+  <!-- Only doctors see Add Prescription -->
+  <h3>Add Prescription</h3>
+  <form action="/prescriptions" method="POST" class="mt-2">
+    <select name="patientId" required class="form-control mb-1">
+      {{#each patients}}
+        <option value="{{this._id}}">{{this.username}} ({{this.email}})</option>
+      {{/each}}
+    </select>
+    <input type="hidden" name="patientId" value="{{message.id}}">
+    <input type="text" name="medicineName" placeholder="Medicine Name" required class="form-control mb-1" />
+    <input type="text" name="dosage" placeholder="Dosage" required class="form-control mb-1" />
+    <input type="text" name="frequency" placeholder="Frequency" required class="form-control mb-1" />
+    <input type="date" name="startDate" class="form-control mb-1" />
+    <input type="date" name="endDate" class="form-control mb-1" />
+    <textarea name="notes" placeholder="Notes" class="form-control mb-1"></textarea>
+    <!-- medicine fields -->
+    <button type="submit" class="btn btn-success">Add Prescription</button>
+  </form>
+{{/ifEquals}}
+
+  <a href="/dashboard" class="btn btn-link mt-3">Back to Dashboard</a>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Dashboard</title>
+</head>
+<body>
+  <h1>Welcome, {{message.username}}</h1>
+  <p>Your role: {{message.role}}</p>
+  <p>Your email: {{message.email}}</p>
+
+  <a href="/medicines">View Medicines</a>
+  <a href="/prescriptions">View Prescriptions</a>
+<form action="/logout" method="POST">
+  <button type="submit">Logout</button>
+</body>
+</html>

@@ -1,0 +1,87 @@
+*{
+    margin: 0%;
+  /* min-height: 100%; */
+
+}
+body {
+    background: linear-gradient(to right,  #0587d8 , #badef5);
+    /* min-height: 100vh; */
+    margin: 0;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+#sign{
+    background-color: rgba(252, 251, 251, 0.925);
+    margin: 0% auto;
+    height: 500px;
+    width: 350px;
+    border: 1px none ;
+    padding: 30px;
+    border-radius: 30px;
+    box-shadow: black 1px 2px 3px,
+     rgb(255, 255, 255) 1px 1px 1px;
+}
+.form{
+    /* background-color: rgb(255, 0, 0); */
+    height: 300px;
+    margin-bottom: 200px;
+    margin-top: 0%;
+}
+img{
+    padding: 0%;
+     width:105px;
+     height: auto;
+     /* margin-left: 20px; */
+     margin-top: 5px;
+     /* background-color: darkgreen; */
+}
+h2{
+    /* background-color: blue; */
+    height: 85px;
+    font-family: sans-serif;
+    font-weight: 800;
+    font-size: 2.5rem;
+    padding: 0%;
+    /* margin: 0% auto; */
+}
+h1{
+    /* background-color: chartreuse; */
+    font-size: 1rem;
+    font-weight: 600;
+}
+h1 a{
+     text-decoration: none;
+      /* font-family: Georgia, 'Times New Roman', Times, serif; */
+    font-style: oblique;
+}
+.form-control{
+    border-radius: 10px;
+     outline: none;
+       box-shadow: black 1px 0px 1px;
+    border: none;
+    /* background-color: rgb(187, 183, 183); */
+    padding: 10px;
+}
+.form-control::placeholder{
+    color: rgb(0, 0, 0);
+    padding: 5px;
+
+}
+.form-select{
+    border-radius: 10px;
+     outline: none;
+       box-shadow: black 1px 0px 1px;
+    border: none;
+    /* background-color: rgb(187, 183, 183); */
+    padding: 10px;
+}
+.form-select::placeholder{
+    color: rgb(0, 0, 0);
+    padding: 5px;
+
+}
+.btn{
+    border-radius: 10px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-style: oblique;
+    font-weight: 700;
+}

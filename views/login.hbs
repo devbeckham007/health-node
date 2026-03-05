@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ✅ Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+    crossorigin="anonymous"
+  />
+
+  <!-- ✅ Bootstrap JS (optional for dropdowns, modals, etc.) -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"
+  ></script>
+
+<link rel="stylesheet" href="login.css">
+  <meta charset="UTF-8">
+  <title>Login</title>
+</head>
+<body>
+  <div class="container mt-5" id="login">
+  <h2 class="mt-4"> <img src="../pics/drug1.png" alt=" classic medicine bottle" class="mb-3">Login</h2>
+
+  {{#if error}}
+    <p style="color:red">{{error}}</p>
+  {{/if}}
+
+  {{#if message}}
+    <p style="color:green">{{message}}</p>
+  {{/if}}
+
+  <form action="/login" class="form row" method="POST">
+    <input type="email" class="form-control column mb-3" name="email" placeholder="Email" required />
+    <input type="password" class="form-control column mb-3" name="password" placeholder="Password" required />
+    <button type="submit" class="btn btn-primary">Login</button>
+  </form>
+  </div>
+</body>
+</html>
