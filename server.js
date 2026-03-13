@@ -7,12 +7,14 @@ dns.setServers(["1.1.1.1", "8.8.8.8"]); // Cloudflare + Google
 
 
 const express = require('express');
+const verifyJWT = require('./middleware/verifyJWT')
 const app = express();
 const path = require('path');
 const cors= require('cors');
 const corsOption = require('./config/corsOption');
 const cookieParser = require('cookie-parser')
 const hbs = require("hbs");
+const axios = require('axios');
 
 // Register custom helper for role checks
 hbs.registerHelper("ifEquals", function (arg1, arg2, options) {
@@ -32,7 +34,7 @@ app.use("/dashboard", require("./router/dashboard"));
 app.use("/logout", require("./router/logout"));
 app.use("/refresh", require("./router/refresh"));
 
-app.use("/medicines", require("./router/medicine"));
+app.use("/medicines", verifyJWT, require("./router/medicine"));
 app.use("/prescriptions", require("./router/pres"));
 const mongoose = require('mongoose');
 const connectDB= require('./config/db');

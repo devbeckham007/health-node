@@ -1,4 +1,39 @@
 const Medicine = require("../model/medicineModel");
+const User = require("../model/user");
+const { searchMedicine, lookupMedicine } = require("./apiController");
+
+const searchMedicines = async (req, res) => {
+  try {
+    console.log("Incoming search request:", req.method, req.originalUrl);
+    console.log("req.query:", req.query);
+    console.log("req.body:", req.body);
+    console.log("User role:", req.user.role);
+
+    const { name } = req.body; // ✅ since form uses POST
+    console.log("Search query name:", name);
+
+    const rxcui = await searchMedicine(name);
+    console.log("RxCUI result:", rxcui);
+
+    if (!rxcui) {
+      return res.render("medicines", {
+        error: "Medicine not found",
+        role: req.user.role,
+        username: req.user.username
+      });
+    }
+
+    const medicine = await lookupMedicine(rxcui);
+    res.render("medicines", {
+      medicine,
+      role: req.user.role,
+      username: req.user.username
+    });
+  } catch (error) {
+    console.error("Error searching medicine:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+};
 
 const createMedicine = async (req, res) => {
     try{
@@ -21,14 +56,22 @@ const createMedicine = async (req, res) => {
 
 const readMedicines = async (req, res) => {
   try {
+    console.log("req.user:", req.user);   // ✅ log the whole user object
     const medicines = await Medicine.find();
-    res.render("medicines", { medicines, username: req.user.username });
-    // or res.json(medicines);
+    console.log("Medicines found:", medicines.length);
+
+    res.render("medicines", {
+      medicines,
+      role: req.user?.role,        // ✅ safe access
+      username: req.user?.username // ✅ safe access
+    });
   } catch (error) {
     console.error(error);
     res.status(500).send("Server error");
   }
 };
+
+
 const updateMedicine = async (req, res) => {
   try {
     if (req.user.role !== "doctor" && req.user.role !== "pharmacist") {
@@ -71,4 +114,4 @@ const deleteMedicine = async (req, res) => {
         res.status(500).json({ error: "Server error" });
     }};
 
-module.exports = { createMedicine, readMedicines, updateMedicine, deleteMedicine };
+module.exports = { searchMedicines, createMedicine, readMedicines, updateMedicine, deleteMedicine };

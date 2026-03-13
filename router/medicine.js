@@ -1,18 +1,20 @@
+// router/medicine.js
 const express = require("express");
 const router = express.Router();
-const { createMedicine, readMedicines, updateMedicine, deleteMedicine} = require("../controller/medicineController");
-const verifyJWT = require("../middleware/verifyJWT");
-const verifyRole = require("../middleware/verifyRole");
+const { searchMedicines, readMedicines } = require("../controller/medicineController");
 
-router.get("/medicines", verifyJWT, verifyRole("doctor"), (req, res) => {
-  res.render("medicines", { username: req.user.username });
+// Debug log to see when this router is loaded
+console.log("Medicine router loaded");
+
+// List all routes in this router
+router.use((req, res, next) => {
+  console.log("Incoming request:", req.method, req.originalUrl);
+  next();
 });
 
+// Routes
+router.get("/", readMedicines);
+router.post("/search", searchMedicines);   // ✅ must exist for POST
+router.get("/search", searchMedicines);    // optional, if you want GET too
 
-
-// ✅ Pass the middleware function, don’t call it immediately
-router.get("/", verifyJWT, verifyRole("doctor"), readMedicines);
-router.post("/", verifyJWT, verifyRole("doctor", "pharmacist"), createMedicine);
-router.post("/update/:id", verifyJWT, verifyRole("doctor", "pharmacist"), updateMedicine);
-router.post("/delete/:id", verifyJWT, verifyRole("doctor", "pharmacist"), deleteMedicine);
 module.exports = router;
