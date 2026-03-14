@@ -1,21 +1,16 @@
 const Medicine = require("../model/medicineModel");
 const User = require("../model/user");
-const { searchMedicine, lookupMedicine } = require("./apiController");
+const { searchMedicine, lookupMedicine } = require("../utils/medApi.js");
+
+
 
 const searchMedicines = async (req, res) => {
   try {
-    console.log("Incoming search request:", req.method, req.originalUrl);
-    console.log("req.query:", req.query);
-    console.log("req.body:", req.body);
-    console.log("User role:", req.user.role);
+    const { name } = req.body;
 
-    const { name } = req.body; // ✅ since form uses POST
-    console.log("Search query name:", name);
-
-    const rxcui = await searchMedicine(name);
-    console.log("RxCUI result:", rxcui);
-
-    if (!rxcui) {
+    // Step 1: Search drug info
+    const drug = await searchMedicine(name);
+    if (!drug) {
       return res.render("medicines", {
         error: "Medicine not found",
         role: req.user.role,
@@ -23,14 +18,24 @@ const searchMedicines = async (req, res) => {
       });
     }
 
-    const medicine = await lookupMedicine(rxcui);
+    // Step 2: Lookup prices
+    const prices = await lookupMedicine(drug.id);
+
+    // Merge results
+    const combined = {
+      name: drug.name,
+      drug_id: drug.id,
+      prices: prices || []
+    };
+
     res.render("medicines", {
-      medicine,
+      medicine: combined,
       role: req.user.role,
       username: req.user.username
     });
+      
   } catch (error) {
-    console.error("Error searching medicine:", error);
+    console.error("Error searching medicine:", error.message);
     res.status(500).json({ error: "Server error" });
   }
 };

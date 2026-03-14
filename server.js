@@ -27,12 +27,14 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static('public'));
 app.use("/register", require("./router/register"));
 app.use("/login", require("./router/auth"));
 app.use("/dashboard", require("./router/dashboard"));
 app.use("/logout", require("./router/logout"));
 app.use("/refresh", require("./router/refresh"));
+app.use("/payment",require("./router/payment"));
+
 
 app.use("/medicines", verifyJWT, require("./router/medicine"));
 app.use("/prescriptions", require("./router/pres"));

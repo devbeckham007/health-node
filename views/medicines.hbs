@@ -12,10 +12,32 @@
 </head>
 <body class="container mt-4">
   <h2 class="mb-3">Prescriptions for {{message.username}}</h2>
-<form action="/medicine/search" method="post" class="mt-2">
+<form action="/medicines/search" method="post" class="mt-2">
   <input type="text" name="name" placeholder="Enter medicine name" class="form-control mb-1">
   <button type="submit" class="btn btn-primary">Search</button>
 </form>
 
+{{#if medicine}}
+  <h2>Medicine Details</h2>
+  <p><strong>Name:</strong> {{medicine.name}}</p>
+  <p><strong>Synonym:</strong> {{medicine.synonym}}</p>
+  <p><strong>RxCUI:</strong> {{medicine.rxcui}}</p>
+   <form action="/payment" method="GET">
+      <button type="submit">Buy Now</button>
+   </form>
+{{/if}}
+
+<h1>Available Drugs</h1>
+<ul>
+  {{#each medicines}}
+    <li>{{this.name}} - ₦{{this.price}}
+      <form action="/payment" method="GET">
+        <input type="hidden" name="drug" value="{{this.name}}">
+        <input type="hidden" name="amount" value="{{this.price}}">
+        <button type="submit">Buy Now</button>
+      </form>
+    </li>
+  {{/each}}
+</ul>
 </body>
 </html>

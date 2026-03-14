@@ -1,0 +1,167 @@
+/* General page styling */
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, #f0f4f8, #d9e4ec);
+  margin: 0;
+  padding: 0;
+  color: #1e293b;
+}
+
+/* Dashboard container */
+.main-con{
+  /* width: 500px; */
+  /* margin: 40px auto; */
+  /* padding: 20px; */
+  background: #ffffff;
+  display: flex;
+  align-items: start;
+  justify-content: start;
+  /* box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  animation: fadeInUp 0.6s ease forwards; */
+}
+#main-con{
+    width: 300px;
+    height: 550px;
+}
+.dash{
+ font-weight: 400;
+ font-size: 1.4rem;
+ margin-bottom: 20px;
+}
+.side1{
+    min-height: 550px;
+    background-color: rgb(113, 218, 237);
+    width: 350px;
+}
+.side1 a{
+    background-color: rgb(180, 237, 253);
+    margin: 5px;
+    border-radius: 7px;
+    font-size: 1.2rem;
+    height: 50px;
+}
+
+.dot{
+    background-color:  rgb(180, 237, 253);
+    color: transparent;
+   font-size: 2rem;
+    margin-right: 10px;
+    border-radius: 2px;
+}
+.side1 a i{
+    margin-right: 5px;
+}
+.side2{
+    width: 400px;
+    /* background-color: crimson; */
+    height: 500px;
+    margin-top: 5px;
+}
+.side2 h1{
+    color: rgb(113, 218, 237);
+    text-align: center;
+    font-weight: 800;
+    font-size: 2rem;
+    text-transform: uppercase;
+
+}
+.side2 p{
+    text-align: center;
+     font-weight: 400;
+    font-size: 1rem;
+}
+.doc{
+    width: 500px;
+    height: 300px;
+     /* background-color: cyan; */
+}
+.image-main{
+    /* background-color: darkkhaki; */
+    width: 500px;
+     display: flex;
+     flex-direction: column;
+}
+.med{
+    /* width: 300px;
+    height: 200px; */
+     background-color: rgb(0, 0, 0);
+}
+.doc img{
+    width: 500px;
+    height: 350px;
+    /* background-color: darkgreen; */
+}
+.med img{
+    width: 500px;
+    height: 250px;
+    /* background-color: coral; */
+}
+@keyframes sciFiGlow {
+  0% {
+    opacity: 0;
+    transform: scale(0.8) translateY(50px);
+    box-shadow: 0 0 0px #00f0ff;
+  }
+  50% {
+    opacity: 0.7;
+    box-shadow: 0 0 20px #00f0ff;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    box-shadow: 0 0 40px #00f0ff;
+  }
+}
+
+.doc{
+  animation: sciFiGlow 1.5s ease-out forwards;
+  border-radius: 12px;
+  /* background-color: #0a0a23; */
+  padding: 10px;
+}
+.cross{
+    /* margin-left: 50px;
+    margin-top: 500px; */
+    /* margin-bottom: 50px; */
+    /* background-color: chartreuse; */
+}
+h1{
+    font-family: sans-serif;
+    font-weight: 200;
+    font-size: 1.5rem;
+}
+.cross img {
+    width: 60px;
+    height: 60px;
+    margin-left: 120px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+/* Style the patient select box */
+select[name="patientId"] {
+ width: 300px;
+ margin-left: 50px;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 16px;
+  color: #212529;              /* dark text */
+  transition: all 0.3s ease;
+}
+
+/* Hover effect */
+select[name="patientId"]:hover {
+  background-color: #e9f2ff;   /* subtle blue tint */
+  border-color: #0b5ed7;       /* darker blue */
+}
+
+/* Focus effect */
+select[name="patientId"]:focus {
+  outline: none;
+  box-shadow: 0 0 6px rgba(13, 110, 253, 0.6); /* glowing blue */
+}
+
+/* Style the options inside */
+select[name="patientId"] option {
+  padding: 8px;
+  font-size: 15px;
+}
