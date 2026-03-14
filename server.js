@@ -30,7 +30,9 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static('public'));
 app.use("/register", require("./router/register"));
 app.use("/login", require("./router/auth"));
-app.use("/dashboard", require("./router/dashboard"));
+app.get("/", (req, res) => {
+  res.render("dashboard"); // or redirect to /dashboard
+});
 app.use("/logout", require("./router/logout"));
 app.use("/refresh", require("./router/refresh"));
 app.use("/payment",require("./router/payment"));
@@ -49,3 +51,4 @@ mongoose.connection.once('open', ()=>{
 app.listen( 5000, ()=>{
     console.log('Server is running on port 5000');
 })
+module.exports = app;
