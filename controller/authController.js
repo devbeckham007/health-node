@@ -38,7 +38,7 @@ const loginUser = async (req, res) => {
 
     res.cookie("accessToken", accessToken, {
   httpOnly: true,
-  secure: false, // set true if using HTTPS
+  secure: true, // set true if using HTTPS
   sameSite: "strict",
   maxAge: 15 * 60 * 1000 // 15 minutes
 });
@@ -48,7 +48,7 @@ const loginUser = async (req, res) => {
     // return res.render("login", { message: "Login successful!" });
 
   } catch (error) {
-    console.error("Error logging in user:", error);
+    console.error("Error logging in user:", error.message);
     return res.render("login", { error: "Server error" });
   }
 };
