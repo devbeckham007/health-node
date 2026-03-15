@@ -49,7 +49,7 @@ const loginUser = async (req, res) => {
 
   } catch (error) {
   console.error("Error logging in user:", error.message, error.stack);
-  return res.render("login", { error: "Server error" });
+   res.render("login", { error: "Server error" });
 }
 };
 module.exports = {  loginUser };
