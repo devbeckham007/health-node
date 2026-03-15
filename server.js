@@ -1,11 +1,12 @@
 require('dotenv').config();
+
 console.log("ENV check:", {
-  MONGO_URI: process.env.MONGO_URI ? "set" : "missing",
+  DATABASE_URI: process.env.DATABASE_URI ? "set" : "missing",
   ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET ? "set" : "missing",
   REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET ? "set" : "missing"
 });
-const dns = require("node:dns/promises");
 
+const dns = require("node:dns/promises");
 // Force Node to use reliable DNS servers
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
 
@@ -43,10 +44,13 @@ app.use("/payment", require("./router/payment"));
 app.use("/medicines", verifyJWT, require("./router/medicine"));
 app.use("/prescriptions", require("./router/pres"));
 app.use("/", require("./router/dashboard")); // ✅ dashboard router handles "/"
+
+// ✅ Global error handler LAST
 app.use((err, req, res, next) => {
   console.error("Unhandled error:", err.message, err.stack);
-});
   res.status(500).send("Internal Server Error");
+});
+
 const mongoose = require('mongoose');
 const connectDB = require('./config/db');
 
