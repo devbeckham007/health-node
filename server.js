@@ -37,11 +37,11 @@ app.use("/refresh", require("./router/refresh"));
 app.use("/payment", require("./router/payment"));
 app.use("/medicines", verifyJWT, require("./router/medicine"));
 app.use("/prescriptions", require("./router/pres"));
+app.use("/", require("./router/dashboard")); // ✅ dashboard router handles "/"
 app.use((err, req, res, next) => {
   console.error("Unhandled error:", err.message, err.stack);
-  res.status(500).send("Internal Server Error");
 });
-app.use("/", require("./router/dashboard")); // ✅ dashboard router handles "/"
+  res.status(500).send("Internal Server Error");
 const mongoose = require('mongoose');
 const connectDB = require('./config/db');
 
