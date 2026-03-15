@@ -10,3 +10,5 @@ router.post("/update/:id", verifyJWT, verifyRole("doctor", "pharmacist"), update
 router.post("/delete/:id", verifyJWT, verifyRole("doctor", "pharmacist"), deletePrescription);
 
 module.exports = router;
+
+
