@@ -48,8 +48,8 @@ const loginUser = async (req, res) => {
     // return res.render("login", { message: "Login successful!" });
 
   } catch (error) {
-    console.error("Error logging in user:", error.message);
-    return res.render("login", { error: "Server error" });
-  }
+  console.error("Error logging in user:", error.message, error.stack);
+  return res.render("login", { error: "Server error" });
+}
 };
 module.exports = {  loginUser };
