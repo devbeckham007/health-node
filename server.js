@@ -1,4 +1,9 @@
 require('dotenv').config();
+console.log("ENV check:", {
+  MONGO_URI: process.env.MONGO_URI ? "set" : "missing",
+  ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET ? "set" : "missing",
+  REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET ? "set" : "missing"
+});
 const dns = require("node:dns/promises");
 
 // Force Node to use reliable DNS servers
