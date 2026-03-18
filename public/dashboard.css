@@ -184,32 +184,7 @@ select[name="patientId"] option {
 
 /* Tablet */
 @media (min-width: 320px) and (max-width: 1024px) {
-  .side1 {
-    width: 40%;
-  }
-  .side2 {
-    width: 60%;
-  }
-  .doc img, .med img {
-    width: 100%;
-    height: auto;
-  }
-}
-
-/* Desktop */
-@media (min-width: 1025px) {
-  .side1 {
-    width: 350px;
-  }
-  .side2 {
-    width: 400px;
-  }
-  .doc img {
-    width: 500px;
-    height: 350px;
-  }
-  .med img {
-    width: 500px;
-    height: 250px;
+  .main-con {
+    max-height: 100%;
   }
 }
