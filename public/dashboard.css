@@ -166,3 +166,9 @@ select[name="patientId"] option {
   font-size: 15px;
 }
 
+
+@media (min-width: 320px) and (max-width: 1024px) {
+  .main-con {
+    height: 100%;
+  }
+}
