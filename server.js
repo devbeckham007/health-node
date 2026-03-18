@@ -52,7 +52,7 @@ app.use((err, req, res, next) => {
 
 const connectDB = require('./config/db');
 
-// ✅ Wrap DB connect in async IIFE so errors are caught
+// ✅ Connect to DB
 (async () => {
   try {
     await connectDB();
@@ -62,11 +62,10 @@ const connectDB = require('./config/db');
   }
 })();
 
-// ✅ Export app for Vercel, listen only locally
-if (process.env.NODE_ENV !== "production") {
-  app.listen(5000, () => {
-    console.log('Server is running on port 5000');
-  });
-}
+// ✅ Always listen on Render's assigned port
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 
 module.exports = app;
