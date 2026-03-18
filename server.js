@@ -1,12 +1,4 @@
 require('dotenv').config();
-
-console.log("ENV check:", {
-  DATABASE_URI: process.env.DATABASE_URI ? "set" : "missing",
-  ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET ? "set" : "missing",
-  REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET ? "set" : "missing",
-  PAY_STACK_KEY: process.env.PAY_STACK_KEY ? "set" : "missing"
-});
-
 const dns = require("node:dns/promises");
 dns.setServers(["1.1.1.1", "8.8.8.8"]);
 
@@ -52,7 +44,7 @@ app.use((err, req, res, next) => {
 
 const connectDB = require('./config/db');
 
-// ✅ Connect to DB
+// Connect to DB
 (async () => {
   try {
     await connectDB();
@@ -62,7 +54,7 @@ const connectDB = require('./config/db');
   }
 })();
 
-// ✅ Always listen on Render's assigned port
+// Always listen on Render's assigned port
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

@@ -3,14 +3,14 @@ const jwt = require("jsonwebtoken");
 const verifyJWT = (req, res, next) => {
   const token = req.cookies?.accessToken;
   if (!token) {
-    console.log("❌ No accessToken cookie found");
+    console.log("No accessToken cookie found");
     return res.redirect("/login");
     // return res.status(401).json({ message: "Unauthorized - no token" });
   }
 
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, decoded) => {
     if (err) {
-      console.log("❌ Token verification failed:", err.message);
+      console.log("Token verification failed:", err.message);
       return res.status(403).json({ message: "Forbidden - invalid token" });
     }
 
@@ -18,7 +18,7 @@ const verifyJWT = (req, res, next) => {
     req.user = {
       id: decoded.id,
       username: decoded.username,
-      role: decoded.role,   // ✅ make sure this is set
+      role: decoded.role,   
       email: decoded.email
     };
     next();
