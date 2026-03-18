@@ -166,25 +166,3 @@ select[name="patientId"] option {
   font-size: 15px;
 }
 
-/* Mobile */
-@media (max-width: 600px) {
-  .main-con {
-    flex-direction: column;
-    align-items: center;
-  }
-  .side1, .side2 {
-    width: 100%;
-    min-height: auto;
-  }
-  .doc img, .med img {
-    width: 100%;
-    height: auto;
-  }
-}
-
-/* Tablet */
-@media (min-width: 320px) and (max-width: 1024px) {
-  .main-con {
-    max-height: 100%;
-  }
-}
