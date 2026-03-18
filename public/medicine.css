@@ -104,3 +104,86 @@ form input, form select {
 form button {
   margin-top: 10px;
 }
+
+
+
+/* ✅ Default styles (desktop/larger screens) are already in your code */
+
+/* 📱 Mobile screens */
+@media (max-width: 600px) {
+  .container {
+    margin: 10px;
+    padding: 10px;
+    width: 95%;
+  }
+
+  h1 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+
+  table th, table td {
+    font-size: 0.85rem;
+    padding: 8px;
+  }
+
+  .btn {
+    padding: 6px 12px;
+    font-size: 0.85rem;
+  }
+
+  form input, form select {
+    width: 100%;
+    font-size: 0.9rem;
+  }
+}
+
+/* 📱 Tablet screens */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .container {
+    width: 90%;
+    margin: 20px auto;
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  table th, table td {
+    font-size: 1rem;
+    padding: 10px;
+  }
+
+  .btn {
+    padding: 7px 14px;
+    font-size: 0.9rem;
+  }
+
+  form input, form select {
+    width: 100%;
+    font-size: 1rem;
+  }
+}
+
+/* 💻 Desktop screens */
+@media (min-width: 1025px) {
+  .container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  table th, table td {
+    font-size: 1rem;
+  }
+
+  .btn {
+    padding: 8px 16px;
+    font-size: 1rem;
+  }
+}

@@ -165,3 +165,51 @@ select[name="patientId"] option {
   padding: 8px;
   font-size: 15px;
 }
+
+/* Mobile */
+@media (max-width: 600px) {
+  .main-con {
+    flex-direction: column;
+    align-items: center;
+  }
+  .side1, .side2 {
+    width: 100%;
+    min-height: auto;
+  }
+  .doc img, .med img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* Tablet */
+@media (min-width: 601px) and (max-width: 1024px) {
+  .side1 {
+    width: 40%;
+  }
+  .side2 {
+    width: 60%;
+  }
+  .doc img, .med img {
+    width: 100%;
+    height: auto;
+  }
+}
+
+/* Desktop */
+@media (min-width: 1025px) {
+  .side1 {
+    width: 350px;
+  }
+  .side2 {
+    width: 400px;
+  }
+  .doc img {
+    width: 500px;
+    height: 350px;
+  }
+  .med img {
+    width: 500px;
+    height: 250px;
+  }
+}
