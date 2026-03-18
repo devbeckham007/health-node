@@ -1,12 +1,17 @@
-const whiteList = ['http://localhost:5000', 'http://www.example.com', 'http://127.0.0.1:5000'];
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://medipay.onrender.com"
+];
+
 const corsOptions = {
-    origin: (origin, callback) => {
-        if (whiteList.indexOf(origin) !== -1 || !origin) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    optionsSuccessStatus: 200
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true
 };
+
 module.exports = corsOptions;
