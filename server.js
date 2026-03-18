@@ -35,14 +35,14 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static('public'));
 
 // Routers
-app.use("/register", require("./router/register"));
+app.use("/", require("./router/register"));
 app.use("/login", require("./router/auth"));
 app.use("/logout", require("./router/logout"));
 app.use("/refresh", require("./router/refresh"));
 app.use("/payment", require("./router/payment"));
 app.use("/medicines", verifyJWT, require("./router/medicine"));
 app.use("/prescriptions", require("./router/pres"));
-app.use("/", require("./router/dashboard"));
+app.use("/dashboard", require("./router/dashboard"));
 
 // Global error handler LAST
 app.use((err, req, res, next) => {

@@ -1,13 +1,22 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { registerUser } = require('../controller/registerController');
+const { registerUser } = require("../controller/registerController");
+const { loginUser } = require("../controller/authController");
 
-// GET /register → show registration form
-router.get('/', (req, res) => {
-  res.render("register"); 
+// Default landing page → register
+router.get("/", (req, res) => {
+  res.render("register");
 });
 
-// POST /register → handle form submission
-router.post('/', registerUser);
+// Handle registration form
+router.post("/register", registerUser);
+
+// Show login page
+router.get("/login", (req, res) => {
+  res.render("login");
+});
+
+// Handle login form
+router.post("/login", loginUser);
 
 module.exports = router;
