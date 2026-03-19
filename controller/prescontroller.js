@@ -31,7 +31,8 @@ const createPrescription = async (req, res) => {
     });
 
     await newPrescription.save();
-    res.status(201).json({ message: "Prescription created successfully", prescription: newPrescription });
+    res.redirect('/medicines')
+    // res.status(201).json({ message: "Prescription created successfully", prescription: newPrescription });
   } catch (error) {
     console.error("Error creating prescription:", error);
     res.status(500).json({ error: "Server error" });
@@ -55,7 +56,7 @@ const getPrescriptions = async (req, res) => {
         .populate("patient", "username email");
     }
 
-    // ✅ Doctors need patient list for dropdown
+    //  Doctors need patient list for dropdown
     let patients = [];
     if (req.user.role === "doctor") {
       patients = await User.find({ role: "patient" });
