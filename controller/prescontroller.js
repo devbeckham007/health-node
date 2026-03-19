@@ -14,8 +14,6 @@ const createPrescription = async (req, res) => {
       return res.status(400).json({ error: "Patient ID is required" });
     }
     const singlePatientId = Array.isArray(patientId) ? patientId[0] : patientId;
-
-
     const referralCode = generateReferralCode();
 
     const newPrescription = new Prescription({
@@ -31,7 +29,7 @@ const createPrescription = async (req, res) => {
     });
 
     await newPrescription.save();
-    res.redirect('/medicines')
+    res.redirect('/prescriptions')
     // res.status(201).json({ message: "Prescription created successfully", prescription: newPrescription });
   } catch (error) {
     console.error("Error creating prescription:", error);
@@ -49,7 +47,9 @@ const getPrescriptions = async (req, res) => {
         .populate("doctor", "username email");
     } else if (req.user.role === "doctor") {
       prescriptions = await Prescription.find({ doctor: req.user.id })
-        .populate("patient", "username email");
+        .populate("patient", "username email")
+        .populate("doctor", "username email");
+
     } else if (req.user.role === "pharmacist") {
       prescriptions = await Prescription.find()
         .populate("doctor", "username email")
@@ -88,7 +88,7 @@ const updatePrescription = async (req, res) => {
     if (req.user.role === "doctor") {
       Object.assign(prescription, req.body);
       await prescription.save();
-      return res.json({ message: "Prescription updated successfully", prescription });
+return res.redirect("/prescriptions");   // go back to prescriptions page
     }
 
     if (req.user.role === "pharmacist") {
@@ -112,7 +112,7 @@ const deletePrescription = async (req, res) => {
       return res.status(404).json({ error: "Prescription not found" });
     }
     await Prescription.findByIdAndDelete(req.params.id);
-    res.json({ message: "Prescription deleted" });
+    res.redirect("/prescriptions");   // reload prescriptions list
   } catch (error) {
     console.error("Error deleting prescription:", error);
     res.status(500).json({ error: "Server error" });
