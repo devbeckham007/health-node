@@ -1,0 +1,165 @@
+<!-- PATIENT DASHBOARD -->
+
+<!-- Welcome banner -->
+<div class="dash-welcome">
+  <div>
+    <h1 class="dash-welcome-title">Good {{timeOfDay}}, {{firstName currentUser.name}} 👋</h1>
+    <p class="dash-welcome-sub">Here's your health summary for today.</p>
+  </div>
+  <a href="/dashboard/appointments/book" class="btn-dash-primary">+ Book Appointment</a>
+</div>
+
+<!-- Stat cards -->
+<div class="stat-cards">
+  <div class="stat-card stat-card--teal">
+    <div class="stat-card-icon">📅</div>
+    <div class="stat-card-body">
+      <div class="stat-card-num">{{stats.upcomingAppointments}}</div>
+      <div class="stat-card-label">Upcoming Appointments</div>
+    </div>
+  </div>
+  <div class="stat-card stat-card--amber">
+    <div class="stat-card-icon">💊</div>
+    <div class="stat-card-body">
+      <div class="stat-card-num">{{stats.activePrescriptions}}</div>
+      <div class="stat-card-label">Active Prescriptions</div>
+    </div>
+  </div>
+  <div class="stat-card stat-card--blue">
+    <div class="stat-card-icon">🧪</div>
+    <div class="stat-card-body">
+      <div class="stat-card-num">{{stats.pendingLabResults}}</div>
+      <div class="stat-card-label">Lab Results Ready</div>
+    </div>
+  </div>
+  <div class="stat-card stat-card--navy">
+    <div class="stat-card-icon">💬</div>
+    <div class="stat-card-body">
+      <div class="stat-card-num">{{stats.unreadMessages}}</div>
+      <div class="stat-card-label">Unread Messages</div>
+    </div>
+  </div>
+</div>
+
+<!-- Main grid -->
+<div class="dash-grid">
+
+  <!-- Upcoming appointments -->
+  <div class="dash-card">
+    <div class="dash-card-header">
+      <h2 class="dash-card-title">Upcoming Appointments</h2>
+      <a href="/dashboard/appointments" class="dash-card-link">View all →</a>
+    </div>
+    {{#if appointments.length}}
+      <div class="appt-list">
+        {{#each appointments}}
+        <div class="appt-row">
+          <div class="appt-row-left">
+            <div class="appt-avatar">{{avatarInitials this.doctorName}}</div>
+            <div>
+              <div class="appt-doctor">{{this.doctorName}}</div>
+              <div class="appt-specialty">{{this.specialty}}</div>
+            </div>
+          </div>
+          <div class="appt-row-right">
+            <div class="appt-date">{{this.date}}</div>
+            <div class="appt-time">{{this.time}}</div>
+            <span class="status-badge status-badge--{{this.status}}">{{this.status}}</span>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <div class="empty-state">
+        <div class="empty-icon">📅</div>
+        <p>No upcoming appointments</p>
+        <a href="/dashboard/appointments/book" class="btn-dash-outline">Book one now</a>
+      </div>
+    {{/if}}
+  </div>
+
+  <!-- Recent prescriptions -->
+  <div class="dash-card">
+    <div class="dash-card-header">
+      <h2 class="dash-card-title">Active Prescriptions</h2>
+      <a href="/dashboard/prescriptions" class="dash-card-link">View all →</a>
+    </div>
+    {{#if prescriptions.length}}
+      <div class="presc-list">
+        {{#each prescriptions}}
+        <div class="presc-row">
+          <div class="presc-icon">💊</div>
+          <div class="presc-info">
+            <div class="presc-name">{{this.medication}}</div>
+            <div class="presc-dosage">{{this.dosage}} · {{this.frequency}}</div>
+          </div>
+          <div class="presc-meta">
+            <div class="presc-refills">{{this.refillsLeft}} refills left</div>
+            <span class="status-badge status-badge--{{this.status}}">{{this.status}}</span>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <div class="empty-state">
+        <div class="empty-icon">💊</div>
+        <p>No active prescriptions</p>
+      </div>
+    {{/if}}
+  </div>
+
+  <!-- Lab results -->
+  <div class="dash-card">
+    <div class="dash-card-header">
+      <h2 class="dash-card-title">Recent Lab Results</h2>
+      <a href="/dashboard/lab-results" class="dash-card-link">View all →</a>
+    </div>
+    {{#if labResults.length}}
+      <div class="lab-list">
+        {{#each labResults}}
+        <div class="lab-row">
+          <div class="lab-icon">🧪</div>
+          <div class="lab-info">
+            <div class="lab-name">{{this.testName}}</div>
+            <div class="lab-date">{{this.date}}</div>
+          </div>
+          <span class="status-badge status-badge--{{this.resultStatus}}">{{this.resultStatus}}</span>
+        </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <div class="empty-state">
+        <div class="empty-icon">🧪</div>
+        <p>No lab results yet</p>
+      </div>
+    {{/if}}
+  </div>
+
+  <!-- Recent messages -->
+  <div class="dash-card">
+    <div class="dash-card-header">
+      <h2 class="dash-card-title">Messages</h2>
+      <a href="/dashboard/messages" class="dash-card-link">View all →</a>
+    </div>
+    {{#if messages.length}}
+      <div class="msg-list">
+        {{#each messages}}
+        <div class="msg-row {{#if this.unread}}msg-row--unread{{/if}}">
+          <div class="msg-avatar">{{avatarInitials this.senderName}}</div>
+          <div class="msg-body">
+            <div class="msg-sender">{{this.senderName}}</div>
+            <div class="msg-preview">{{this.preview}}</div>
+          </div>
+          <div class="msg-time">{{this.time}}</div>
+        </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <div class="empty-state">
+        <div class="empty-icon">💬</div>
+        <p>No messages yet</p>
+      </div>
+    {{/if}}
+  </div>
+
+</div>

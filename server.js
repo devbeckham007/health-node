@@ -15,6 +15,15 @@ const hbs = require("hbs");
 hbs.registerHelper("ifEquals", function (arg1, arg2, options) {
   return (arg1 === arg2) ? options.fn(this) : options.inverse(this);
 });
+hbs.registerHelper("eq", function (a, b) {
+  return a === b;
+});
+
+
+hbs.registerHelper("json", function(context) {
+  return JSON.stringify(context, null, 2);
+});
+
 
 app.use(cors(corsOption));
 app.use(express.json());
@@ -25,16 +34,22 @@ app.set("view engine", "hbs");
 app.set("views", path.join(__dirname, "views"));
 
 app.use(express.static('public'));
+app.get("/", (req, res) => {
+  res.redirect("/dashboard");  // ✅ add the slash
+});
 
-// Routers
+// ✅ uncomment this
+app.use("/dashboard", require("./router/dashboard"));
+
 app.use("/", require("./router/register"));
-app.use("/login", require("./router/auth"));
+app.use("/", require("./router/auth"));
 app.use("/logout", require("./router/logout"));
 app.use("/refresh", require("./router/refresh"));
 app.use("/payment", require("./router/payment"));
 app.use("/medicines", verifyJWT, require("./router/medicine"));
 app.use("/prescriptions", require("./router/pres"));
-app.use("/dashboard", require("./router/dashboard"));
+app.use("/", require("./router/doctor"));
+app.use("/", require("./router/role"));
 
 // Global error handler LAST
 app.use((err, req, res, next) => {

@@ -2,8 +2,6 @@ const Medicine = require("../model/medicineModel");
 const User = require("../model/user");
 const { searchMedicine, lookupMedicine } = require("../utils/medApi.js");
 
-
-
 const searchMedicines = async (req, res) => {
   try {
     const { name } = req.body;
@@ -18,28 +16,22 @@ const searchMedicines = async (req, res) => {
       });
     }
 
-    // Step 2: Lookup prices
-    const prices = await lookupMedicine(drug.id);
+    // Step 2: Lookup full NDC record
+// Step 2: Lookup full NDC record
+const ndcDrug = await lookupMedicine(drug.name);
 
-    // Merge results
-    const combined = {
-      name: drug.name,
-      drug_id: drug.id,
-      prices: prices || []
-    };
+// ✅ Pass filtered fields directly
+res.render("medicines", {
+  medicine: ndcDrug,   // no "all" wrapper
+  role: req.user.role,
+  username: req.user.username
+});
 
-    res.render("medicines", {
-      medicine: combined,
-      role: req.user.role,
-      username: req.user.username
-    });
-      
   } catch (error) {
     console.error("Error searching medicine:", error.message);
     res.status(500).json({ error: "Server error" });
   }
 };
-
 const createMedicine = async (req, res) => {
     try{
         if(req.user.role !== "doctor" && req.user.role !== "pharmacist"){

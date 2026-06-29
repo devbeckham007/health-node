@@ -19,15 +19,17 @@
 
 {{#if medicine}}
   <h2>Medicine Details</h2>
-  <p><strong>Name:</strong> {{medicine.name}}</p>
-  <p><strong>Synonym:</strong> {{medicine.synonym}}</p>
-  <p><strong>RxCUI:</strong> {{medicine.rxcui}}</p>
-   <form action="/payment" method="GET">
-      <button type="submit">Buy Now</button>
-   </form>
+  <p><strong>Product NDC:</strong> {{medicine.product_ndc}}</p>
+  <p><strong>Name:</strong> {{medicine.brand_name}}</p>
+  <p><strong>Generic:</strong> {{medicine.generic_name}}</p>
+  <p><strong>Manufacturer:</strong> {{medicine.manufacturer}}</p>
+  <p><strong>Dosage:</strong> {{medicine.dosage}}</p>
+  <p><strong>Strength:</strong> {{medicine.strength}}</p>
+  <form action="/payment" method="GET">
+    <button type="submit">Buy Now</button>
+  </form>
 {{/if}}
 
-<h1>Available Drugs</h1>
 <ul>
   {{#each medicines}}
     <li>{{this.name}} - ₦{{this.price}}

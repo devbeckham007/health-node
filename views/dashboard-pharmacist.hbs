@@ -1,0 +1,164 @@
+<!-- PHARMACIST DASHBOARD -->
+
+<div class="dash-welcome">
+  <div>
+    <h1 class="dash-welcome-title">Good {{timeOfDay}}, {{firstName currentUser.name}} 👋</h1>
+    <p class="dash-welcome-sub">You have <strong>{{stats.pendingPrescriptions}}</strong> prescriptions awaiting processing.</p>
+  </div>
+  <a href="/dashboard/inventory" class="btn-dash-primary">📦 Manage Inventory</a>
+</div>
+
+<!-- Stat cards -->
+<div class="stat-cards">
+  <div class="stat-card stat-card--teal">
+    <div class="stat-card-icon">💊</div>
+    <div class="stat-card-body">
+      <div class="stat-card-num">{{stats.pendingPrescriptions}}</div>
+      <div class="stat-card-label">Pending Scripts</div>
+    </div>
+  </div>
+  <div class="stat-card stat-card--amber">
+    <div class="stat-card-icon">✅</div>
+    <div class="stat-card-body">
+      <div class="stat-card-num">{{stats.dispensedToday}}</div>
+      <div class="stat-card-label">Dispensed Today</div>
+    </div>
+  </div>
+  <div class="stat-card stat-card--blue">
+    <div class="stat-card-icon">📦</div>
+    <div class="stat-card-body">
+      <div class="stat-card-num">{{stats.lowStockItems}}</div>
+      <div class="stat-card-label">Low Stock Items</div>
+    </div>
+  </div>
+  <div class="stat-card stat-card--navy">
+    <div class="stat-card-icon">🧑‍⚕️</div>
+    <div class="stat-card-body">
+      <div class="stat-card-num">{{stats.patientsServedToday}}</div>
+      <div class="stat-card-label">Patients Served Today</div>
+    </div>
+  </div>
+</div>
+
+<!-- Main grid -->
+<div class="dash-grid">
+
+  <!-- Pending prescriptions queue -->
+  <div class="dash-card dash-card--wide">
+    <div class="dash-card-header">
+      <h2 class="dash-card-title">Prescription Queue</h2>
+      <a href="/dashboard/prescriptions" class="dash-card-link">View all →</a>
+    </div>
+    {{#if pendingPrescriptions.length}}
+      <div class="queue-list">
+        {{#each pendingPrescriptions}}
+        <div class="queue-row">
+          <div class="queue-num">#{{this.queueNumber}}</div>
+          <div class="queue-info">
+            <div class="queue-patient">{{this.patientName}}</div>
+            <div class="queue-medication">{{this.medication}} · {{this.dosage}}</div>
+            <div class="queue-doctor">Prescribed by: {{this.doctorName}}</div>
+          </div>
+          <div class="queue-meta">
+            <div class="queue-received">Received {{this.receivedAt}}</div>
+            <span class="status-badge status-badge--{{this.status}}">{{this.status}}</span>
+          </div>
+          <div class="queue-actions">
+            <a href="/dashboard/prescriptions/{{this._id}}/dispense" class="btn-dash-sm btn-dash-sm--teal">Dispense</a>
+            <a href="/dashboard/prescriptions/{{this._id}}" class="btn-dash-sm">Details</a>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <div class="empty-state">
+        <div class="empty-icon">✅</div>
+        <p>All prescriptions processed — queue is clear!</p>
+      </div>
+    {{/if}}
+  </div>
+
+  <!-- Low stock alerts -->
+  <div class="dash-card">
+    <div class="dash-card-header">
+      <h2 class="dash-card-title">⚠️ Low Stock Alerts</h2>
+      <a href="/dashboard/inventory" class="dash-card-link">Full inventory →</a>
+    </div>
+    {{#if lowStockItems.length}}
+      <div class="stock-list">
+        {{#each lowStockItems}}
+        <div class="stock-row">
+          <div class="stock-icon">📦</div>
+          <div class="stock-info">
+            <div class="stock-name">{{this.name}}</div>
+            <div class="stock-qty">{{this.quantity}} units remaining</div>
+          </div>
+          <span class="status-badge status-badge--{{#if (lt this.quantity 10)}}danger{{else}}warning{{/if}}">
+            {{#if (lt this.quantity 10)}}Critical{{else}}Low{{/if}}
+          </span>
+        </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <div class="empty-state">
+        <div class="empty-icon">📦</div>
+        <p>All stock levels are healthy</p>
+      </div>
+    {{/if}}
+  </div>
+
+  <!-- Recently dispensed -->
+  <div class="dash-card">
+    <div class="dash-card-header">
+      <h2 class="dash-card-title">Recently Dispensed</h2>
+      <a href="/dashboard/prescriptions?status=dispensed" class="dash-card-link">View all →</a>
+    </div>
+    {{#if dispensedRecords.length}}
+      <div class="presc-list">
+        {{#each dispensedRecords}}
+        <div class="presc-row">
+          <div class="presc-icon">✅</div>
+          <div class="presc-info">
+            <div class="presc-name">{{this.medication}}</div>
+            <div class="presc-dosage">{{this.patientName}} · {{this.dispensedAt}}</div>
+          </div>
+          <span class="status-badge status-badge--dispensed">Dispensed</span>
+        </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <div class="empty-state">
+        <div class="empty-icon">💊</div>
+        <p>Nothing dispensed yet today</p>
+      </div>
+    {{/if}}
+  </div>
+
+  <!-- Messages -->
+  <div class="dash-card">
+    <div class="dash-card-header">
+      <h2 class="dash-card-title">Messages</h2>
+      <a href="/dashboard/messages" class="dash-card-link">View all →</a>
+    </div>
+    {{#if messages.length}}
+      <div class="msg-list">
+        {{#each messages}}
+        <div class="msg-row {{#if this.unread}}msg-row--unread{{/if}}">
+          <div class="msg-avatar">{{avatarInitials this.senderName}}</div>
+          <div class="msg-body">
+            <div class="msg-sender">{{this.senderName}}</div>
+            <div class="msg-preview">{{this.preview}}</div>
+          </div>
+          <div class="msg-time">{{this.time}}</div>
+        </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <div class="empty-state">
+        <div class="empty-icon">💬</div>
+        <p>No messages yet</p>
+      </div>
+    {{/if}}
+  </div>
+
+</div>

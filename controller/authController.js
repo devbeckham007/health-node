@@ -36,15 +36,15 @@ const loginUser = async (req, res) => {
     foundUser.refreshToken = refreshToken;
     await foundUser.save();
 
-    res.cookie("accessToken", accessToken, {
+   res.cookie("accessToken", accessToken, {
   httpOnly: true,
-  secure: true, // set true if using HTTPS
-  sameSite: "strict",
-  maxAge: 15 * 60 * 1000 // 15 minutes
+  secure: process.env.NODE_ENV === "production", // ✅ false locally, true on Render
+  sameSite: "lax",                               // ✅ works across redirects
+  maxAge: 3 * 60 * 60 * 1000                    // ✅ matches the 3h token
 });
 
     // ✅ Only ONE response
-    return res.redirect("/dashboard");
+  res.redirect("/roleDashboard");
     // return res.render("login", { message: "Login successful!" });
 
   } catch (error) {
