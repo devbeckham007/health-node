@@ -1,91 +1,46 @@
-const express = require("express");
-const router = express.Router();
-const mongoose = require("mongoose");
-const verifyJWT = require("../middleware/verifyJWT");
-const Doctor=require('../model/doctor')
-const User = require("../model/user"); // <-- import your User model
+const express     = require("express");
+const router      = express.Router();
+const verifyJWT   = require("../middleware/verifyJWT");
+const Doctor      = require("../model/doctor");
+const User        = require("../model/user");
+const Prescription = require("../model/prescription");
 
+// Import the shared helper from appointment route
+const { fetchAppointmentData } = require("./appointments");
 
 router.get("/roleDashboard", verifyJWT, async (req, res) => {
-  let patients = [];
-  let doctor = null;
+  try {
+    let doctor        = null;
+    let patients      = [];
+    let prescriptions = [];
 
-  console.log("✅ Hit /roleDashboard");
-  console.log("✅ req.user:", req.user);
+    // Get appointments + doctors using the shared helper
+    const { appointments } = await fetchAppointmentData(req.user);
 
-  if (req.user.role === "doctor") {
-    patients = await User.find({ role: "patient" });
-    doctor = await Doctor.findOne({ userId: new mongoose.Types.ObjectId(req.user.id) });
+    if (req.user.role === "doctor") {
+      doctor   = await Doctor.findOne({ userId: req.user.id });
+      patients = await User.find({ role: "patient" });
+      prescriptions = await Prescription.find({ doctorId: req.user.id });
 
-    console.log("✅ patients found:", patients.length);
-    console.log("✅ doctor found:", doctor);
+    } else if (req.user.role === "patient") {
+      prescriptions = await Prescription.find({ patientId: req.user.id });
+
+    } else if (req.user.role === "pharmacist") {
+      prescriptions = await Prescription.find({ status: "pending" });
+    }
+
+    res.render("roleDashboard", {
+      message:       req.user,
+      doctor,
+      patients,
+      appointments,        // ← now available in roleDashboard.hbs
+      prescriptions,
+    });
+
+  } catch (err) {
+    console.error("roleDashboard error:", err);
+    res.status(500).send("Server error");
   }
-
-  return res.render("roleDashboard", {
-    message: {
-      username: req.user.username,
-      role: req.user.role,
-      email: req.user.email,
-    },
-    patients,
-    doctor
-  });
 });
+
 module.exports = router;
-// const express    = require('express');
-// const router     = express.Router();
-// const verifyJWT  = require('../middleware/verifyJWT');
-// const User       = require('../model/user');
-// const doctorController = require("../controller/doctorController");
-
-
-// router.get('/', verifyJWT, async (req, res) => {
-//   let patients = [];
-
-//   if (req.user.role === "doctor") {
-//     // fetch patients from DB
-//     patients = await User.find({ role: "patient" });
-//   }
-
-//   return res.render("roleDashboard", {
-//     message: {
-//       username: req.user.username,
-//       role: req.user.role,
-//       email: req.user.email
-//     },
-//     patients
-//   });
-// });
-//  router.get("/", verifyJWT, doctorController.doctorDashboard);
-// module.exports = router;
-
-
-
-// // const express = require("express");
-// // const router = express.Router();
-// // const doctorController = require("../controller/doctorController");
-// // const verifyJWT = require("../middleware/verifyJWT");
-// // const User = require("../model/user"); // <-- import your User model
-
-// // router.get("/", (req, res) => {
-// //     res.render("roleDashboard");
-// // });
-// // router.get("/", verifyJWT, async (req, res) => {
-// //   let patients = [];
-
-// //   if (req.user.role === "doctor") {
-// //     // fetch patients from DB
-// //     patients = await User.find({ role: "patient" });
-// //   }
-
-// //   res.render("roleDashboard", {
-// //     message: {
-// //       username: req.user.username,
-// //       role: req.user.role,
-// //       email: req.user.email
-// //     },
-// //     patients
-// //   });
-// // });
-// // router.get("/", verifyJWT, doctorController.doctorDashboard);
-// // module.exports = router;

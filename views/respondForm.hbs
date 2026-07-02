@@ -1,0 +1,25 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Respond to Appointment</h1>
+<form action="/appointments/{{appointmentId}}/respond" method="POST">
+  <label>
+    <input type="radio" name="action" value="accepted"> Accept
+  </label>
+  <label>
+    <input type="radio" name="action" value="declined"> Decline
+  </label>
+  <br>
+  <label>
+    Date: <input type="date" name="date">
+  </label>
+  <br>
+  <button type="submit">Submit</button>
+</form>
+
+</body>
+</html>

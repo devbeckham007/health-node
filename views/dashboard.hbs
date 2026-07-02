@@ -3,253 +3,434 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/style.css">
-  <title>Document</title>
+  <title>HealthNode — Your Connected Care Platform</title>
 </head>
 <body>
+
+  <!-- ══════════════════════════════════════
+       NAVBAR
+  ══════════════════════════════════════ -->
+  <nav class="navbar">
+    <a href="/" class="logo">Health<span>Node</span></a>
+
+    <ul class="nav-links">
+      <li><a href="#how-it-works">How it works</a></li>
+      <li><a href="#roles">Who it's for</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#testimonials">Reviews</a></li>
+    </ul>
+
+    <div class="nav-cta">
+      <a href="/login"    class="btn-ghost">Sign in</a>
+      <a href="/register" class="btn-primary">Get started free</a>
+    </div>
+
+    <button class="nav-hamburger" aria-label="Toggle menu" onclick="document.querySelector('.nav-links').style.display = document.querySelector('.nav-links').style.display === 'flex' ? 'none' : 'flex'">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+
+  <!-- ══════════════════════════════════════
+       HERO
+  ══════════════════════════════════════ -->
   <section class="hero">
-  <div class="hero-left">
-    <div class="eyebrow">
-      <span class="eyebrow-dot"></span>
-      Now serving 3 healthcare roles
+    <div class="hero-left">
+
+      <div class="eyebrow">
+        <span class="eyebrow-dot"></span>
+        Now serving 3 healthcare roles
+      </div>
+
+      <!-- Role pills -->
+      <div class="role-pills">
+        <button class="pill active"
+          data-role="Patient"
+          data-sub="Book appointments, access your medical records, and stay connected with your care team — all in one secure place.">
+          Patient
+        </button>
+        <button class="pill"
+          data-role="Doctor"
+          data-sub="Manage your schedule, access patient records, write prescriptions, and consult securely with your patients.">
+          Doctor
+        </button>
+        <button class="pill"
+          data-role="Pharmacist"
+          data-sub="Receive digital prescriptions, verify patient eligibility, and coordinate dispensing — no more chasing paper scripts.">
+          Pharmacist
+        </button>
+      </div>
+
+      <h1 class="hero-headline">
+        Your care platform<br>built for every
+        <span class="role-line">
+          <span class="role-word in" id="role-display">Patient</span>
+        </span>
+      </h1>
+
+      <p class="hero-sub" id="hero-sub">
+        Book appointments, access your medical records, and stay connected with your care team — all in one secure place.
+      </p>
+
+      <div class="hero-actions">
+        <a href="/register" class="btn-hero btn-hero-primary">Create your account →</a>
+        <a href="#how-it-works" class="btn-hero btn-hero-outline">See how it works</a>
+      </div>
+
     </div>
 
-    <div class="role-pills">
-      <button class="pill active" data-role="Patient" data-sub="Book appointments, access your medical records, and stay connected with your care team — all in one secure place.">Patient</button>
-      <button class="pill" data-role="Doctor"    data-sub="Manage your schedule, access patient records, write prescriptions, and consult securely with your patients.">Doctor</button>
-      <button class="pill" data-role="Pharmacist" data-sub="Receive digital prescriptions, verify patient eligibility, and coordinate dispensing — no more chasing paper scripts.">Pharmacist</button>
-    </div>
-
-    <h1 class="hero-headline">
-      Your care platform<br>built for every
-      <span class="role-line">
-        <span class="role-word in" id="role-display">Patient</span>
-      </span>
-    </h1>
-
-    <p class="hero-sub" id="hero-sub">
-      Book appointments, access your medical records, and stay connected with your care team — all in one secure place.
-    </p>
-
-    <div class="hero-actions">
-      <form action="/register" method="POST">
-        <button type="submit" class="btn-hero btn-hero-primary">Create your account →</button>
-      </form>
-      <a href="#how-it-works" class="btn-hero btn-hero-outline">See how it works</a>
-    </div>
-  </div>
-
-  <div class="hero-right">
-    <div class="dash-card-wrap">
-      <div class="dash-card">
-        <div class="dash-header">
-          <span class="dash-title">My Dashboard</span>
-          <span class="dash-badge">Today</span>
-        </div>
-        <div class="stat-row">
-          <div class="stat-box">
-            <div class="stat-num">3</div>
-            <div class="stat-label">Upcoming Appts</div>
+    <!-- Dashboard mockup -->
+    <div class="hero-right">
+      <div class="dash-card-wrap">
+        <div class="dash-card">
+          <div class="dash-header">
+            <span class="dash-title">My Dashboard</span>
+            <span class="dash-badge">Today</span>
           </div>
-          <div class="stat-box">
-            <div class="stat-num">12</div>
-            <div class="stat-label">Lab Results</div>
-          </div>
-        </div>
-        <div class="appointment-list">
-          <div class="appt-item">
-            <div class="appt-dot" style="background:#00B4A6;"></div>
-            <div class="appt-info">
-              <div class="appt-name">Dr. Amaka Obi</div>
-              <div class="appt-time">Today · 10:30 AM</div>
+          <div class="stat-row">
+            <div class="stat-box">
+              <div class="stat-num">3</div>
+              <div class="stat-label">Upcoming Appts</div>
             </div>
-            <span class="appt-status" style="background:rgba(0,180,166,.15);color:#00B4A6;">Confirmed</span>
-          </div>
-          <div class="appt-item">
-            <div class="appt-dot" style="background:#F5A623;"></div>
-            <div class="appt-info">
-              <div class="appt-name">Blood Test Results</div>
-              <div class="appt-time">Ready to view</div>
+            <div class="stat-box">
+              <div class="stat-num">12</div>
+              <div class="stat-label">Lab Results</div>
             </div>
-            <span class="appt-status" style="background:rgba(245,166,35,.15);color:#F5A623;">New</span>
           </div>
-          <div class="appt-item">
-            <div class="appt-dot" style="background:#7ab3ff;"></div>
-            <div class="appt-info">
-              <div class="appt-name">Prescription Refill</div>
-              <div class="appt-time">Expires in 5 days</div>
+          <div class="appointment-list">
+            <div class="appt-item">
+              <div class="appt-dot" style="background:#00B4A6;"></div>
+              <div class="appt-info">
+                <div class="appt-name">Dr. Amaka Obi</div>
+                <div class="appt-time">Today · 10:30 AM</div>
+              </div>
+              <span class="appt-status" style="background:rgba(0,180,166,.15);color:#00B4A6;">Confirmed</span>
             </div>
-            <span class="appt-status" style="background:rgba(122,179,255,.15);color:#7ab3ff;">Pending</span>
+            <div class="appt-item">
+              <div class="appt-dot" style="background:#F5A623;"></div>
+              <div class="appt-info">
+                <div class="appt-name">Blood Test Results</div>
+                <div class="appt-time">Ready to view</div>
+              </div>
+              <span class="appt-status" style="background:rgba(245,166,35,.15);color:#F5A623;">New</span>
+            </div>
+            <div class="appt-item">
+              <div class="appt-dot" style="background:#7ab3ff;"></div>
+              <div class="appt-info">
+                <div class="appt-name">Prescription Refill</div>
+                <div class="appt-time">Expires in 5 days</div>
+              </div>
+              <span class="appt-status" style="background:rgba(122,179,255,.15);color:#7ab3ff;">Pending</span>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="floating-badge">
-        <span class="floating-badge-icon">🔒</span>
-        <div>
-          <div class="floating-badge-text">HIPAA Compliant</div>
-          <div class="floating-badge-sub">End-to-end encrypted</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- STATS BAR -->
-<div class="stats-bar">
-  <div class="stat-item">
-    <div class="stat-big">50K+</div>
-    <div class="stat-desc">Registered patients</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-big">1,200</div>
-    <div class="stat-desc">Verified doctors</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-big">320</div>
-    <div class="stat-desc">Partner pharmacies</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-big">99.8%</div>
-    <div class="stat-desc">Platform uptime</div>
-  </div>
-</div>
-
-<!-- HOW IT WORKS -->
-<section class="section" id="how-it-works">
-  <p class="section-label">How it works</p>
-  <h2 class="section-title">From registration to care in three steps</h2>
-  <div class="steps-grid">
-    <div class="step-card">
-      <div class="step-icon">👤</div>
-      <h3>Create your profile</h3>
-      <p>Register as a patient, doctor, or pharmacist. Your role determines your dashboard and what you can access on the platform.</p>
-    </div>
-    <div class="step-card">
-      <div class="step-icon">🔗</div>
-      <h3>Connect with your care team</h3>
-      <p>Patients find and book appointments with verified doctors. Doctors review patient records. Pharmacists manage prescriptions — all coordinated in one place.</p>
-    </div>
-    <div class="step-card">
-      <div class="step-icon">📋</div>
-      <h3>Manage your care</h3>
-      <p>Track appointments, view lab results, send prescriptions, and communicate securely. Every interaction is logged and encrypted.</p>
-    </div>
-  </div>
-</section>
-
-<!-- WHO IT'S FOR -->
-<section class="roles-section" id="roles">
-  <p class="section-label" style="color:var(--teal);">Built for everyone in the care cycle</p>
-  <h2 class="section-title" style="color:#fff;">Three roles. One connected platform.</h2>
-  <div class="roles-grid">
-    <div class="role-card patient">
-      <span class="role-card-icon">🧑‍⚕️</span>
-      <h3>Patients</h3>
-      <p>Book appointments, view test results, request prescription refills, and keep your entire health history in one place.</p>
-      <a href="/register" class="role-card-link">Register as a patient →</a>
-    </div>
-    <div class="role-card doctor">
-      <span class="role-card-icon">👨‍⚕️</span>
-      <h3>Doctors</h3>
-      <p>Manage your schedule, access patient records, write prescriptions, and consult with specialists — all from your dashboard.</p>
-      <a href="/register" class="role-card-link">Join as a doctor →</a>
-    </div>
-    <div class="role-card pharmacy">
-      <span class="role-card-icon">💊</span>
-      <h3>Pharmacists</h3>
-      <p>Receive digital prescriptions, verify patient eligibility, and coordinate medication dispensing with minimal paperwork.</p>
-      <a href="/register" class="role-card-link">Register your pharmacy →</a>
-    </div>
-  </div>
-</section>
-
-<!-- FEATURES -->
-<section class="features-section" id="features">
-  <div class="features-inner">
-    <div>
-      <p class="section-label">Platform features</p>
-      <h2 class="section-title">Everything your care team needs</h2>
-      <div class="features-list">
-        <div class="feature-item">
-          <div class="feature-icon-wrap">📅</div>
+        <div class="floating-badge">
+          <span class="floating-badge-icon">🔒</span>
           <div>
-            <h4>Smart appointment scheduling</h4>
-            <p>Patients book in seconds. Doctors confirm instantly. No more phone tag or double-bookings.</p>
-          </div>
-        </div>
-        <div class="feature-item">
-          <div class="feature-icon-wrap">📁</div>
-          <div>
-            <h4>Unified patient records</h4>
-            <p>Every visit, test result, and prescription in one timeline — accessible to the right people, at the right time.</p>
-          </div>
-        </div>
-        <div class="feature-item">
-          <div class="feature-icon-wrap">💬</div>
-          <div>
-            <h4>Secure in-app messaging</h4>
-            <p>HIPAA-compliant messaging between patients, doctors, and pharmacists. No emails, no insecure channels.</p>
-          </div>
-        </div>
-        <div class="feature-item">
-          <div class="feature-icon-wrap">🔔</div>
-          <div>
-            <h4>Real-time notifications</h4>
-            <p>Appointment reminders, prescription updates, and lab result alerts — so nothing falls through the cracks.</p>
+            <div class="floating-badge-text">HIPAA Compliant</div>
+            <div class="floating-badge-sub">End-to-end encrypted</div>
           </div>
         </div>
       </div>
     </div>
-    <div class="features-visual">
-      <div class="chat-label">Dr. Obi · 9:42 AM</div>
-      <div class="chat-bubble">Your latest blood panel looks good. I've updated your chart and sent a note to your pharmacist about your refill.</div>
-      <div class="chat-label right">You · 9:45 AM</div>
-      <div class="chat-bubble right">Thank you! Will I need to come in next week?</div>
-      <div class="chat-label">Dr. Obi · 9:47 AM</div>
-      <div class="chat-bubble">No need — I'll schedule a follow-up in 30 days. I've added it to your calendar automatically. 🗓️</div>
-      <div class="chat-prescription">
-        <span>✅</span>
-        <div>
-          <div class="chat-presc-title">Prescription sent to pharmacy</div>
-          <div class="chat-presc-sub">HealthFirst Pharmacy · Est. ready 2:00 PM</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- TESTIMONIALS -->
-<section class="testimonials-section">
-  <p class="section-label">What people say</p>
-  <h2 class="section-title">Trusted by patients and clinicians</h2>
-  <div class="testimonials-grid">
-    {{#each testimonials}}
-    <div class="testimonial-card">
-      <div class="stars">★★★★★</div>
-      <blockquote>"{{this.quote}}"</blockquote>
-      <div class="testimonial-author">
-        <div class="author-avatar">{{this.initials}}</div>
-        <div>
-          <div class="author-name">{{this.name}}</div>
-          <div class="author-role">{{this.role}}</div>
+
+  <!-- ══════════════════════════════════════
+       STATS BAR
+  ══════════════════════════════════════ -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-big">50K+</div>
+      <div class="stat-desc">Registered patients</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-big">1,200</div>
+      <div class="stat-desc">Verified doctors</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-big">320</div>
+      <div class="stat-desc">Partner pharmacies</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-big">99.8%</div>
+      <div class="stat-desc">Platform uptime</div>
+    </div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════
+       HOW IT WORKS
+  ══════════════════════════════════════ -->
+  <section class="section" id="how-it-works">
+    <p class="section-label">How it works</p>
+    <h2 class="section-title">From registration to care in three steps</h2>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-icon">👤</div>
+        <h3>Create your profile</h3>
+        <p>Register as a patient, doctor, or pharmacist. Your role determines your dashboard and everything you can access on the platform.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">🔗</div>
+        <h3>Connect with your care team</h3>
+        <p>Patients find and book appointments with verified doctors. Doctors review patient records. Pharmacists manage prescriptions — all coordinated in one place.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-icon">📋</div>
+        <h3>Manage your care</h3>
+        <p>Track appointments, view lab results, send prescriptions, and communicate securely. Every interaction is logged and encrypted.</p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════
+       WHO IT'S FOR
+  ══════════════════════════════════════ -->
+  <section class="roles-section" id="roles">
+    <p class="section-label" style="color:var(--teal);">Built for everyone in the care cycle</p>
+    <h2 class="section-title" style="color:#fff;">Three roles. One connected platform.</h2>
+    <div class="roles-grid">
+
+      <div class="role-card patient">
+        <h3>Patients</h3>
+        <p>Book appointments, view test results, request prescription refills, and keep your entire health history in one secure place.</p>
+        <a href="/register" class="role-card-link">Register as a patient →</a>
+      </div>
+
+      <div class="role-card doctor">
+        <h3>Doctors</h3>
+        <p>Manage your schedule, access patient records, write prescriptions, and consult with specialists — all from your dashboard.</p>
+        <a href="/register" class="role-card-link">Join as a doctor →</a>
+      </div>
+
+      <div class="role-card pharmacy">
+        <h3>Pharmacists</h3>
+        <p>Receive digital prescriptions, verify patient eligibility, and coordinate medication dispensing with minimal paperwork.</p>
+        <a href="/register" class="role-card-link">Register your pharmacy →</a>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════
+       FEATURES
+  ══════════════════════════════════════ -->
+  <section class="features-section" id="features">
+    <div class="features-inner">
+      <div>
+        <p class="section-label">Platform features</p>
+        <h2 class="section-title">Everything your care team needs</h2>
+        <div class="features-list">
+          <div class="feature-item">
+            <div>
+              <h4>Smart appointment scheduling</h4>
+              <p>Patients book in seconds. Doctors confirm instantly. No more phone tag or double-bookings.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div>
+              <h4>Unified patient records</h4>
+              <p>Every visit, test result, and prescription in one timeline — accessible to the right people, at the right time.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div>
+              <h4>Secure in-app messaging</h4>
+              <p>HIPAA-compliant messaging between patients, doctors, and pharmacists. No emails, no insecure channels.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div>
+              <h4>Real-time notifications</h4>
+              <p>Appointment reminders, prescription updates, and lab result alerts — so nothing falls through the cracks.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat visual -->
+      <div class="features-visual">
+        <div class="chat-label">Dr. Obi · 9:42 AM</div>
+        <div class="chat-bubble">Your latest blood panel looks good. I've updated your chart and sent a note to your pharmacist about your refill.</div>
+        <div class="chat-label right">You · 9:45 AM</div>
+        <div class="chat-bubble right">Thank you! Will I need to come in next week?</div>
+        <div class="chat-label">Dr. Obi · 9:47 AM</div>
+        <div class="chat-bubble">No need — I'll schedule a follow-up in 30 days. I've added it to your calendar automatically. 🗓️</div>
+        <div class="chat-prescription">
+
+          <div>
+            <div class="chat-presc-title">Prescription sent to pharmacy</div>
+            <div class="chat-presc-sub">HealthFirst Pharmacy · Est. ready 2:00 PM</div>
+          </div>
         </div>
       </div>
     </div>
-    {{/each}}
-  </div>
-</section>
+  </section>
 
-<!-- CTA -->
-<section class="cta-section">
-  <h2>Ready to connect your care?</h2>
-  <p>Join thousands of patients and clinicians already using HealthNode. Free to get started.</p>
-  <div class="cta-buttons">
-   <form action="/register" method="POST">
-        <button type="submit" class="btn-hero btn-hero-primary">Create your account →</button>
-      </form>
-    <a href="/login" class="btn-hero btn-hero-outline">Sign in</a>
-  </div>
-</section>
+
+  <!-- ══════════════════════════════════════
+       TESTIMONIALS
+  ══════════════════════════════════════ -->
+  <section class="testimonials-section" id="testimonials">
+    <p class="section-label">What people say</p>
+    <h2 class="section-title">Trusted by patients and clinicians</h2>
+    <div class="testimonials-grid">
+
+      {{#if testimonials.length}}
+        {{#each testimonials}}
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <blockquote>"{{this.quote}}"</blockquote>
+          <div class="testimonial-author">
+            <div class="author-avatar">{{this.initials}}</div>
+            <div>
+              <div class="author-name">{{this.name}}</div>
+              <div class="author-role">{{this.role}}</div>
+            </div>
+          </div>
+        </div>
+        {{/each}}
+
+      {{else}}
+        <!-- Fallback static testimonials when no data passed from server -->
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <blockquote>"HealthNode completely changed how I manage my patients. I can write prescriptions and view records in one place — it's seamless."</blockquote>
+          <div class="testimonial-author">
+            <div class="author-avatar">AO</div>
+            <div>
+              <div class="author-name">Dr. Amaka Obi</div>
+              <div class="author-role">General Physician</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <blockquote>"I used to dread coordinating with pharmacies. Now my prescriptions arrive digitally and everything is verified automatically."</blockquote>
+          <div class="testimonial-author">
+            <div class="author-avatar">CU</div>
+            <div>
+              <div class="author-name">Chidi Uchenna</div>
+              <div class="author-role">Patient</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card">
+          <div class="stars">★★★★★</div>
+          <blockquote>"As a pharmacist, the referral code system makes verification instant. We've cut prescription errors by over 80%."</blockquote>
+          <div class="testimonial-author">
+            <div class="author-avatar">FB</div>
+            <div>
+              <div class="author-name">Fatima Bello</div>
+              <div class="author-role">Chief Pharmacist, Lagos</div>
+            </div>
+          </div>
+        </div>
+      {{/if}}
+
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════
+       CTA
+  ══════════════════════════════════════ -->
+  <section class="cta-section">
+    <h2>Ready to connect your care?</h2>
+    <p>Join thousands of patients and clinicians already using HealthNode. Free to get started.</p>
+    <div class="cta-buttons">
+      <a href="/register" class="btn-hero btn-hero-primary">Create your account →</a>
+      <a href="/login"    class="btn-hero btn-hero-outline">Sign in</a>
+    </div>
+  </section>
+
+
+  <!-- ══════════════════════════════════════
+       FOOTER
+  ══════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="/" class="logo">Health<span>Node</span></a>
+        <p>A connected care platform built for patients, doctors, and pharmacists. Secure, HIPAA-compliant, and always available.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Platform</h4>
+        <ul>
+          <li><a href="#how-it-works">How it works</a></li>
+          <li><a href="#features">Features</a></li>
+          <li><a href="#roles">Who it's for</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Account</h4>
+        <ul>
+          <li><a href="/register">Register</a></li>
+          <li><a href="/login">Sign in</a></li>
+          <li><a href="/roleDashboard">Dashboard</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">HIPAA Compliance</a></li>
+        </ul>
+      </div>
+    </div>
+    <hr class="footer-divider">
+    <div class="footer-bottom">
+      <span>© 2025 HealthNode. All rights reserved.</span>
+      <span>Built with care </span>
+    </div>
+  </footer>
+
+
   <script src="/main.js"></script>
+  <script>
+    // Role pill switcher
+    const pills = document.querySelectorAll('.pill');
+    const roleDisplay = document.getElementById('role-display');
+    const heroSub = document.getElementById('hero-sub');
+
+    pills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        pills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+
+        const role = pill.dataset.role;
+        const sub  = pill.dataset.sub;
+
+        roleDisplay.classList.remove('in');
+        roleDisplay.classList.add('out');
+
+        setTimeout(() => {
+          roleDisplay.textContent = role;
+          heroSub.textContent = sub;
+          roleDisplay.classList.remove('out');
+          roleDisplay.classList.add('in');
+        }, 350);
+      });
+    });
+
+    // Auto-cycle roles
+    let current = 0;
+    const pillList = Array.from(pills);
+    setInterval(() => {
+      current = (current + 1) % pillList.length;
+      pillList[current].click();
+    }, 3500);
+  </script>
 </body>
 </html>

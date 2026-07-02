@@ -1,5 +1,5 @@
 const Prescription = require("../model/prescription");
-const User = require("../model/user"); // Make sure you have a User model
+const User = require("../model/user");
 const generateReferralCode = require("../utils/referral");
 
 // Doctor creates prescription

@@ -48,6 +48,7 @@ app.use("/refresh", require("./router/refresh"));
 app.use("/payment", require("./router/payment"));
 app.use("/medicines", verifyJWT, require("./router/medicine"));
 app.use("/prescriptions", require("./router/pres"));
+app.use("/appointments", require("./router/appointments"));
 app.use("/", require("./router/doctor"));
 app.use("/", require("./router/role"));
 
@@ -64,6 +65,7 @@ const connectDB = require('./config/db');
   try {
     await connectDB();
     console.log("MongoDB connection established");
+    require("./controller/appointmentCleanup");
   } catch (err) {
     console.error("MongoDB connection failed:", err.message);
   }

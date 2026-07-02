@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <title>Appointments — HealthNode</title>
+</head>
+<body>
+
+  <div class="db-mobile-bar">
+    <a href="/" class="db-logo">Health<span>Node</span></a>
+    <button class="db-burger" onclick="document.querySelector('.db-sidebar').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <div class="db-wrap">
+    <aside class="db-sidebar">
+      <a href="/" class="db-logo">Health<span>Node</span></a>
+      <span class="db-nav-label">Main</span>
+      <a href="/roleDashboard" class="db-nav-link"> Dashboard</a>
+      <a href="/medicines"     class="db-nav-link">Medicines</a>
+      <a href="/prescriptions" class="db-nav-link">Prescriptions</a>
+      <a href="/appointments"  class="db-nav-link active"> Appointments</a>
+      <div class="db-sidebar-footer">
+        <form action="/logout" method="POST">
+          <button class="db-logout" type="submit"> Logout</button>
+        </form>
+      </div>
+    </aside>
+
+    <main class="db-main">
+
+      <div class="page-header">
+        <h1>Appointments</h1>
+        <p>
+          {{#ifEquals user.role "patient"}}Book an appointment with a doctor below{{/ifEquals}}
+          {{#ifEquals user.role "doctor"}}Manage your incoming appointment requests{{/ifEquals}}
+        </p>
+      </div>
+
+      {{#if error}}
+        <div class="alert alert-error">{{error}}</div>
+      {{/if}}
+      {{#if success}}
+        <div class="alert alert-success">{{success}}</div>
+      {{/if}}
+
+
+      {{#ifEquals user.role "patient"}}
+
+        {{#if doctors.length}}
+        <div class="db-card">
+          <div class="db-card-title">Available Doctors</div>
+          <div class="med-grid">
+            {{#each doctors}}
+            <div class="med-card">
+              <div class="med-card-top">
+                <span class="med-name">Dr. {{this.username}}</span>
+                <span class="med-price" style="font-size:0.82rem;color:var(--teal);">
+                  {{#if this.isFull}}Full{{else}}Available{{/if}}
+                </span>
+              </div>
+
+              <div class="presc-meta" style="margin-bottom:0;">
+                <div class="presc-meta-item">
+                  <label>Department</label>
+                  <p>{{this.department}}</p>
+                </div>
+                {{#if this.qualifications}}
+                <div class="presc-meta-item">
+                  <label>Qualifications</label>
+                  <p>{{this.qualifications}}</p>
+                </div>
+                {{/if}}
+                {{#if this.yearsOfExperience}}
+                <div class="presc-meta-item">
+                  <label>Experience</label>
+                  <p>{{this.yearsOfExperience}} yrs</p>
+                </div>
+                {{/if}}
+                {{#if this.consultationFee}}
+                <div class="presc-meta-item">
+                  <label>Consultation Fee</label>
+                  <p>₦{{this.consultationFee}}</p>
+                </div>
+                {{/if}}
+                {{#if this.availability}}
+                <div class="presc-meta-item">
+                  <label>Availability</label>
+                  <p>{{this.availability}}</p>
+                </div>
+                {{/if}}
+              </div>
+
+              <div class="med-card-footer" style="margin-top:16px;">
+                <form action="/appointments" method="POST">
+                  <input type="hidden" name="patientId" value="{{../user.id}}">
+                  <input type="hidden" name="doctorId"  value="{{this._id}}">
+                  <button type="submit" class="btn-primary" style="width:100%;">
+                    Request Appointment →
+                  </button>
+                </form>
+              </div>
+            </div>
+            {{/each}}
+          </div>
+        </div>
+        {{else}}
+        <div class="empty-state">
+          <p>No doctors are available for appointments right now. Check back soon.</p>
+        </div>
+        {{/if}}
+
+        {{!-- Patient's own appointments --}}
+        <div class="db-card" style="margin-top:32px;">
+          <div class="db-card-title">My Appointments</div>
+
+          {{#if appointments.length}}
+          <div class="presc-list">
+            {{#each appointments}}
+            <div class="presc-item">
+              <div class="presc-item-header">
+                <span class="presc-med-name">Dr. {{this.doctorId.username}}</span>
+                <span class="presc-badge"
+                  style="
+                    {{#ifEquals this.status 'accepted'}}background:rgba(0,180,166,0.12);color:var(--teal);{{/ifEquals}}
+                    {{#ifEquals this.status 'pending'}}background:rgba(245,166,35,0.12);color:var(--amber);{{/ifEquals}}
+                    {{#ifEquals this.status 'declined'}}background:rgba(220,38,38,0.1);color:#dc2626;{{/ifEquals}}
+                  ">
+                  {{this.status}}
+                </span>
+              </div>
+              <div class="presc-meta">
+                <div class="presc-meta-item">
+                  <label>Department</label>
+                  <p>{{this.doctorId.department}}</p>
+                </div>
+                <div class="presc-meta-item">
+                  <label>Date</label>
+                  <p>{{#if this.date}}{{this.date}}{{else}}Awaiting confirmation{{/if}}</p>
+                </div>
+              </div>
+            </div>
+            {{/each}}
+          </div>
+          {{else}}
+          <div class="empty-state" style="padding:40px 20px;">
+            <p>You haven't booked any appointments yet.</p>
+          </div>
+          {{/if}}
+
+        </div>
+
+      {{/ifEquals}}
+
+
+      {{#ifEquals user.role "doctor"}}
+
+        {{!-- Doctor's own profile card --}}
+        {{#if doctors.length}}
+        <div class="db-card">
+          <div class="db-card-title">Your Profile</div>
+          <div class="db-alert db-alert-info">
+            Patients can request appointments with you from their dashboard.
+          </div>
+          {{#each doctors}}
+          <div class="db-info-grid">
+            <div class="db-info-item"><label>Department</label><p>{{this.department}}</p></div>
+            <div class="db-info-item"><label>Max Appointments</label><p>{{this.maxAppointments}}</p></div>
+            <div class="db-info-item">
+              <label>Status</label>
+              <p>{{#if this.isFull}} Fully booked{{else}} Accepting patients{{/if}}</p>
+            </div>
+            <div class="db-info-item"><label>Consultation Fee</label><p>₦{{this.consultationFee}}</p></div>
+            <div class="db-info-item"><label>Experience</label><p>{{this.yearsOfExperience}} yrs</p></div>
+            <div class="db-info-item"><label>Availability</label><p>{{this.availability}}</p></div>
+          </div>
+          {{/each}}
+        </div>
+        {{/if}}
+
+        {{!-- Incoming appointment requests --}}
+        <div class="db-card" style="margin-top:32px;">
+          <div class="db-card-title">Appointment Requests</div>
+
+          {{#if appointments.length}}
+          <div class="presc-list">
+            {{#each appointments}}
+            <div class="presc-item">
+              <div class="presc-item-header">
+                <span class="presc-med-name">{{this.patientId.username}}</span>
+                <span class="presc-badge"
+                  style="
+                    {{#ifEquals this.status 'accepted'}}background:rgba(0,180,166,0.12);color:var(--teal);{{/ifEquals}}
+                    {{#ifEquals this.status 'pending'}}background:rgba(245,166,35,0.12);color:var(--amber);{{/ifEquals}}
+                    {{#ifEquals this.status 'declined'}}background:rgba(220,38,38,0.1);color:#dc2626;{{/ifEquals}}
+                  ">
+                  {{this.status}}
+                </span>
+              </div>
+              <div class="presc-meta">
+                <div class="presc-meta-item">
+                  <label>Patient Email</label>
+                  <p>{{this.patientId.email}}</p>
+                </div>
+                <div class="presc-meta-item">
+                  <label>Requested Date</label>
+                  <p>{{#if this.date}}{{this.date}}{{else}}Not yet set{{/if}}</p>
+                </div>
+              </div>
+
+              {{!-- Only show respond form if still pending --}}
+              {{#ifEquals this.status "pending"}}
+              <div class="presc-actions">
+                <form action="/appointments/{{this._id}}/respond" method="POST">
+                  <div class="presc-form-grid">
+                    <div style="grid-column:1/-1;">
+                      <label style="font-size:0.8rem;font-weight:600;color:var(--slate);text-transform:uppercase;letter-spacing:0.07em;display:block;margin-bottom:6px;">
+                        Set Appointment Date
+                      </label>
+                      <input type="datetime-local" name="date"
+                        style="width:100%;padding:12px 14px;border-radius:10px;border:1.5px solid var(--light);font-family:'Inter',sans-serif;font-size:0.92rem;outline:none;" />
+                    </div>
+                  </div>
+                  <div style="display:flex;gap:12px;margin-top:12px;">
+                    <button type="submit" name="action" value="accepted" class="btn-primary">
+                       Accept
+                    </button>
+                    <button type="submit" name="action" value="declined" class="btn-sm-danger">
+                       Decline
+                    </button>
+                  </div>
+                </form>
+              </div>
+              {{/ifEquals}}
+
+            </div>
+            {{/each}}
+          </div>
+          {{else}}
+          <div class="empty-state" style="padding:40px 20px;">
+            <p>No appointment requests yet.</p>
+          </div>
+          {{/if}}
+
+        </div>
+
+      {{/ifEquals}}
+
+    </main>
+  </div>
+
+  <script src="/main.js"></script>
+</body>
+</html>

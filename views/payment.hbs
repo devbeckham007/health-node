@@ -1,16 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <title>Payment — HealthNode</title>
 </head>
-<body>
-  <h1>Payment Page</h1>
-<p>You are about to pay ₦{{amount}} for {{drug}}.</p>
+<body class="auth-page">
 
-<form action="/payment/paystack" method="POST">
-  <label>Email:</label>
+  <nav class="navbar">
+    <a href="/" class="logo">Health<span>Node</span></a>
+    <div class="nav-cta">
+      <a href="/roleDashboard" class="btn-ghost">← Dashboard</a>
+    </div>
+  </nav>
+
+  <div class="payment-section">
+
+    <div class="payment-left">
+      <div class="payment-summary">
+        <a href="/" class="logo">Health<span>Node</span></a>
+        <h2>Secure checkout for your medication</h2>
+        <div class="order-card">
+          <div class="order-row">
+            <span class="order-label">Medicine</span>
+            <span class="order-value">{{drug}}</span>
+          </div>
+          <div class="order-row">
+            <span class="order-label">Payment method</span>
+            <span class="order-value">Paystack</span>
+          </div>
+          <div class="order-row order-total">
+            <span class="order-label">Total</span>
+            <span class="order-value">₦{{amount}}</span>
+          </div>
+        </div>
+        <ul class="payment-perks">
+          <li> 256-bit SSL encrypted checkout</li>
+          <li>Powered by Paystack — trusted across Africa</li>
+          <li>Prescription verified before dispatch</li>
+          <li>Support available 24/7</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="payment-right">
+      <div class="payment-card">
+        <h1 class="auth-title">Complete payment</h1>
+        <p class="auth-sub">You are paying ₦{{amount}} for <strong>{{drug}}</strong></p>
+
+        <div class="paystack-badge">
+          <p>This payment is secured and processed by Paystack</p>
+        </div>
+
+        <form action="/payment/paystack" method="POST" class="auth-form"> 
+          <div class="form-group">
+            <label>Email:</label>
   <input type="email" name="email" required>
 
   <label>Amount (₦):</label>
@@ -18,8 +66,17 @@
 
   <label>Phone Number:</label>
   <input type="text" name="number" required>
+          <button type="submit" class="form-submit-paystack">
+             Pay with Paystack
+          </button>
+        </form>
 
-  <button type="submit">Proceed to Paystack</button>
-</form>
+        <p class="secure-note">Your payment info is never stored on our servers</p>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="/main.js"></script>
 </body>
 </html>

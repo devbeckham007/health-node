@@ -3,93 +3,180 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    crossorigin="anonymous"
-  />
-  <title>Prescriptions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <title>Prescriptions — HealthNode</title>
 </head>
-<body class="container mt-4">
-  <h2 class="mb-3">Prescriptions for {{message.username}}</h2>
+<body>
 
-  {{#if prescriptions.length}}
-  <ul class="list-group mb-4">
-    {{#each prescriptions}}
-      <li class="list-group-item">
-        <strong>{{medicineName}}</strong> — {{dosage}} — {{frequency}}
-        <br>
-        Patient: {{patient.username}} ({{patient.email}})
-        <br>
-        Prescribed by: {{doctor.username}} ({{doctor.email}})
-        <br>
-        Notes: {{notes}}
-        <br>
-        Referral Code: {{referralCode}}
+  <div class="db-mobile-bar">
+    <a href="/" class="db-logo">Health<span>Node</span></a>
+    <button class="db-burger" onclick="document.querySelector('.db-sidebar').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 
-        {{#ifEquals ../message.role "doctor"}}
-          <!-- Doctor update/delete -->
-          <form action="/prescriptions/update/{{this._id}}" method="POST" class="mt-2">
-            <!-- update fields -->
-          </form>
-          <form action="/prescriptions/update/{{this._id}}" method="POST" class="mt-2">
-            {{!-- <input type="hidden" name="_method" value="PUT" /> --}}
-            <input type="hidden" name="patientId" value="{{message.id}}">
-            <input type="text" name="medicineName" placeholder="Medicine Name" required class="form-control mb-1" />
-            <input type="text" name="dosage" placeholder="Dosage" required class="form-control mb-1" />
-            <input type="text" name="frequency" placeholder="Frequency" required class="form-control mb-1" />
-            <input type="date" name="startDate" class="form-control mb-1" />
-            <input type="date" name="endDate" class="form-control mb-1" />
-            <textarea name="notes" placeholder="Notes" class="form-control mb-1"></textarea>
-            <button type="submit" class="btn btn-primary btn-sm">Update</button>
-          </form>
-          <form action="/prescriptions/delete/{{this._id}}" method="POST" class="mt-2">
-            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
-          </form>
-        {{/ifEquals}}
+  <div class="db-wrap">
+    <aside class="db-sidebar">
+      <a href="/" class="db-logo">Health<span>Node</span></a>
+      <span class="db-nav-label">Main</span>
+      <a href="/roleDashboard" class="db-nav-link"> Dashboard</a>
+      <a href="/medicines" class="db-nav-link">Medicines</a>
+      <a href="/prescriptions" class="db-nav-link active">Prescriptions</a>
+      <a href="/appointments" class="db-nav-link"> Appointments</a>
+      <div class="db-sidebar-footer">
+        <form action="/logout" method="POST">
+          <button class="db-logout" type="submit"> Logout</button>
+        </form>
+      </div>
+    </aside>
 
-        {{#ifEquals ../message.role "pharmacist"}}
-          <!-- Pharmacist update (requires referral code) -->
-          <form action="/prescriptions/update/{{this._id}}" method="POST" class="mt-2">
-          <input type="hidden" name="patientId" value="{{message.id}}">
-    <input type="text" name="medicineName" placeholder="Medicine Name" required class="form-control mb-1" />
-    <input type="text" name="dosage" placeholder="Dosage" required class="form-control mb-1" />
-    <input type="text" name="frequency" placeholder="Frequency" required class="form-control mb-1" />
-    <input type="date" name="startDate" class="form-control mb-1" />
-    <input type="date" name="endDate" class="form-control mb-1" />
-    <textarea name="notes" placeholder="Notes" class="form-control mb-1"></textarea>
-             <input type="text" name="referralCode" placeholder="Referral Code (pharmacist)" class="form-control mb-1" />
-            <button type="submit" class="btn btn-warning btn-sm">Update</button>
-          </form>
-        {{/ifEquals}}
-      </li>
-    {{/each}}
-  </ul>
-{{else}}
-  <p>No prescriptions found.</p>
-{{/if}}
+    <main class="db-main">
 
-{{#ifEquals message.role "doctor"}}
-  <!-- Only doctors see Add Prescription -->
-  <h3>Add Prescription</h3>
-  <form action="/prescriptions" method="POST" class="mt-2">
-    <select name="patientId" required class="form-control mb-1">
-      {{#each patients}}
-        <option value="{{this._id}}">{{this.username}} ({{this.email}})</option>
-      {{/each}}
-    </select>
-    <input type="hidden" name="patientId" value="{{message.id}}">
-    <input type="text" name="medicineName" placeholder="Medicine Name" required class="form-control mb-1" />
-    <input type="text" name="dosage" placeholder="Dosage" required class="form-control mb-1" />
-    <input type="text" name="frequency" placeholder="Frequency" required class="form-control mb-1" />
-    <input type="date" name="startDate" class="form-control mb-1" />
-    <input type="date" name="endDate" class="form-control mb-1" />
-    <textarea name="notes" placeholder="Notes" class="form-control mb-1"></textarea>
-    <!-- medicine fields -->
-    <button type="submit" class="btn btn-success">Add Prescription</button>
-  </form>
-{{/ifEquals}}
+      <div class="page-header">
+        <h1>Prescriptions</h1>
+        <p>Managing prescriptions for {{message.username}}</p>
+      </div>
 
-  <a href="/roleDashboard" class="btn btn-link mt-3">Back to Dashboard</a>
+      <!-- Prescription list -->
+      <div class="db-card">
+        <div class="db-card-title">Active Prescriptions</div>
+
+        {{#if prescriptions.length}}
+        <div class="presc-list">
+          {{#each prescriptions}}
+          <div class="presc-item">
+            <div class="presc-item-header">
+              <span class="presc-med-name">{{medicineName}}</span>
+              <span class="presc-badge">Ref: {{referralCode}}</span>
+            </div>
+            <div class="presc-meta">
+              <div class="presc-meta-item">
+                <label>Dosage</label>
+                <p>{{dosage}}</p>
+              </div>
+              <div class="presc-meta-item">
+                <label>Frequency</label>
+                <p>{{frequency}}</p>
+              </div>
+              <div class="presc-meta-item">
+                <label>Patient</label>
+                <p>{{patient.username}}</p>
+              </div>
+              <div class="presc-meta-item">
+                <label>Prescribed by</label>
+                <p>{{doctor.username}}</p>
+              </div>
+              {{#if notes}}
+              <div class="presc-meta-item" style="grid-column: 1 / -1;">
+                <label>Notes</label>
+                <p>{{notes}}</p>
+              </div>
+              {{/if}}
+            </div>
+
+            <!-- Doctor actions -->
+            {{#ifEquals ../message.role "doctor"}}
+            <div class="presc-actions">
+              <form action="/prescriptions/update/{{this._id}}" method="POST">
+                <input type="hidden" name="patientId" value="{{../message.id}}">
+                <div class="presc-form-grid">
+                  <input type="text" name="medicineName" placeholder="Medicine name" value="{{medicineName}}" required />
+                  <input type="text" name="dosage" placeholder="Dosage" value="{{dosage}}" required />
+                  <input type="text" name="frequency" placeholder="Frequency" value="{{frequency}}" required />
+                  <input type="date" name="startDate" value="{{startDate}}" />
+                  <input type="date" name="endDate" value="{{endDate}}" />
+                  <textarea name="notes" placeholder="Notes…">{{notes}}</textarea>
+                </div>
+                <button type="submit" class="btn-primary" style="font-size:0.85rem;padding:9px 18px;">Update Prescription</button>
+              </form>
+              <form action="/prescriptions/delete/{{this._id}}" method="POST">
+                <button type="submit" class="btn-sm-danger">Delete</button>
+              </form>
+            </div>
+            {{/ifEquals}}
+
+            <!-- Pharmacist actions -->
+            {{#ifEquals ../message.role "pharmacist"}}
+            <div class="presc-actions">
+              <form action="/prescriptions/update/{{this._id}}" method="POST">
+                <input type="hidden" name="patientId" value="{{../message.id}}">
+                <div class="presc-form-grid">
+                  <input type="text" name="medicineName" placeholder="Medicine name" value="{{medicineName}}" required />
+                  <input type="text" name="dosage" placeholder="Dosage" value="{{dosage}}" required />
+                  <input type="text" name="frequency" placeholder="Frequency" value="{{frequency}}" required />
+                  <input type="date" name="startDate" value="{{startDate}}" />
+                  <input type="date" name="endDate" value="{{endDate}}" />
+                  <textarea name="notes" placeholder="Notes…">{{notes}}</textarea>
+                  <input type="text" name="referralCode" placeholder="Referral code (required)" required />
+                </div>
+                <button type="submit" class="btn-sm-warning">Verify &amp; Update</button>
+              </form>
+            </div>
+            {{/ifEquals}}
+
+          </div>
+          {{/each}}
+        </div>
+        {{else}}
+        <div class="empty-state">
+          <p>No prescriptions found yet.</p>
+        </div>
+        {{/if}}
+      </div>
+
+      <!-- Add Prescription (doctors only) -->
+      {{#ifEquals message.role "doctor"}}
+      <div class="db-card">
+        <div class="db-card-title"> Add New Prescription</div>
+        <form action="/prescriptions" method="POST">
+          <div class="add-form-grid">
+            <div class="form-group full">
+              <label>Select Patient</label>
+              <select name="patientId" required>
+                <option value="" disabled selected>Choose a patient…</option>
+                {{#each patients}}
+                  <option value="{{this._id}}">{{this.username}} — {{this.email}}</option>
+                {{/each}}
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="medicineName">Medicine Name</label>
+              <input type="text" id="medicineName" name="medicineName" placeholder="e.g. Amoxicillin" required />
+            </div>
+            <div class="form-group">
+              <label for="dosage">Dosage</label>
+              <input type="text" id="dosage" name="dosage" placeholder="e.g. 500mg" required />
+            </div>
+            <div class="form-group">
+              <label for="frequency">Frequency</label>
+              <input type="text" id="frequency" name="frequency" placeholder="e.g. Twice daily" required />
+            </div>
+            <div class="form-group">
+              <label for="startDate">Start Date</label>
+              <input type="date" id="startDate" name="startDate" />
+            </div>
+            <div class="form-group">
+              <label for="endDate">End Date</label>
+              <input type="date" id="endDate" name="endDate" />
+            </div>
+            <div class="form-group full">
+              <label for="notes">Notes</label>
+              <textarea id="notes" name="notes" placeholder="Any additional notes for the patient or pharmacist…"></textarea>
+            </div>
+          </div>
+          <button type="submit" class="form-submit" style="margin-top:16px;">Add Prescription</button>
+        </form>
+      </div>
+      {{/ifEquals}}
+
+      <a href="/roleDashboard" style="color:var(--teal);font-size:0.875rem;font-weight:600;text-decoration:none;">← Back to Dashboard</a>
+
+    </main>
+  </div>
+
+  <script src="/main.js"></script>
 </body>
 </html>

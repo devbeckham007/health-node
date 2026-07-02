@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- ✅ Your custom styles -->
+
   <link rel="stylesheet" href="/style.css">
 
   <title>Register</title>
@@ -16,10 +16,10 @@
       <h2>Join the platform connecting healthcare</h2>
       <p>Thousands of patients, doctors, and pharmacists trust HealthNode to manage care — securely and efficiently.</p>
       <ul class="auth-perks">
-        <li>🔒 End-to-end encrypted records</li>
-        <li>📅 Instant appointment booking</li>
-        <li>💊 Digital prescription management</li>
-        <li>✅ HIPAA compliant</li>
+        <li> End-to-end encrypted records</li>
+        <li>Instant appointment booking</li>
+        <li> Digital prescription management</li>
+        <li>HIPAA compliant</li>
       </ul>
     </div>
   </div>
@@ -34,7 +34,7 @@
       {{/if}}
 
       <form action="/register" method="POST" class="auth-form" id="registerForm" novalidate>
-           <select name="role" class="form-select column mb-3">
+           <select name="role" class="form-group">
             <option value="doctor">Doctor</option>
             <option value="patient">Patient</option>
             <option value="pharmacist">Pharmacist</option>

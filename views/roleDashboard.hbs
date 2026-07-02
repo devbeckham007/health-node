@@ -1,96 +1,227 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <!-- Bootstrap CSS -->
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-    crossorigin="anonymous"
-  />
-  <!-- Bootstrap JS -->
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-    crossorigin="anonymous"
-  ></script>
-  <link rel="stylesheet" href="/dashboard.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
-  <title>Dashboard</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <title>Dashboard — HealthNode</title>
 </head>
 <body>
-  <div class="main-con d-flex">
-    <!-- Sidebar -->
-    <div class="side1 bg-dark text-white p-3">
-      <h1 class="dash">
-        <span class="dot">.</span>
-        <i class="fas fa-home me-2"></i>DASHBOARD
-      </h1>
 
-      <a class="nav-link text-white mb-2" href="/medicines">
-        <i class="fa-solid fa-prescription-bottle-medical"></i> Medicines
-      </a>
-
-      <a class="nav-link text-white mb-2" href="/prescriptions">
-        <i class="fas fa-notes-medical me-2"></i> Prescriptions
-      </a>
-
-      <a class="nav-link text-white mb-2" href="/appointments">
-        <i class="fas fa-calendar-check me-2"></i> Appointments
-      </a>
-
-      <form action="/logout" method="POST">
-        <button class="btn btn-danger mt-3 w-100">
-          <i class="fas fa-sign-out-alt me-2"></i> Logout
-        </button>
-      </form>
-    </div>
-
-    <!-- Main Content -->
-       <div class="side2 flex-grow-1 p-4">
-      <h1>Welcome, {{message.username}}</h1>
-      <p>Your role: {{message.role}}</p>
-      <p>Your email: {{message.email}}</p>
-      <p>Your department: {{doctor.department}}</p>
-{{#ifEquals message.role "doctor"}}
-  <form action="/prescriptions" method="POST" class="mt-2">
-    <select name="patientId" required class="form-control mb-1">
-      {{#each patients}}
-        <option value="{{this._id}}">{{this.username}} ({{this.email}})</option>
-      {{/each}}
-    </select>
-  </form>
-{{/ifEquals}}
-    </div>
-      <!-- Doctor-specific panel -->
-      {{#ifEquals message.role "doctor"}}
-        <div class="card mt-3">
-          <div class="card-body">
-            <h4>Doctor Profile</h4>
-            <p><strong>Department:</strong> {{doctor.department}}</p>
-            <p><strong>License Number:</strong> {{doctor.licenseNumber}}</p>
-            <p><strong>Qualifications:</strong> {{doctor.qualifications}}</p>
-            <p><strong>Years of Experience:</strong> {{doctor.yearsOfExperience}}</p>
-            <p><strong>Consultation Fee:</strong> ₦{{doctor.consultationFee}}</p>
-            <p><strong>Availability:</strong> {{doctor.availability}}</p>
-          </div>
-        </div>
-
-        
-      {{/ifEquals}}
-
-      <!-- Patient-specific panel -->
-      {{#ifEquals message.role "patient"}}
-        <div class="card mt-3">
-          <div class="card-body">
-            <h4>Patient Panel</h4>
-            <p>Upcoming Appointments: {{appointments.length}}</p>
-            <p>Prescriptions: {{prescriptions.length}}</p>
-          </div>
-        </div>
-      {{/ifEquals}}
-    </div>
+  <div class="db-mobile-bar">
+    <a href="/" class="db-logo">Health<span>Node</span></a>
+    <button class="db-burger" onclick="document.querySelector('.db-sidebar').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
   </div>
+
+  <div class="db-wrap">
+    <aside class="db-sidebar">
+      <a href="/" class="db-logo">Health<span>Node</span></a>
+      <span class="db-nav-label">Main</span>
+      <a href="/roleDashboard" class="db-nav-link active"> Dashboard</a>
+      <a href="/medicines"     class="db-nav-link"> Medicines</a>
+      <a href="/prescriptions" class="db-nav-link">Prescriptions</a>
+      <a href="/appointments"  class="db-nav-link">Appointments</a>
+      <div class="db-sidebar-footer">
+        <form action="/logout" method="POST">
+          <button class="db-logout" type="submit">Logout</button>
+        </form>
+      </div>
+    </aside>
+
+    <main class="db-main">
+
+      <!-- Top bar -->
+      <div class="db-topbar">
+        <div class="db-greeting">
+          <h1>Welcome back, {{message.username}}</h1>
+          <p>{{message.email}}</p>
+        </div>
+        <span class="db-role-badge">⚕️ {{message.role}}</span>
+      </div>
+
+      <!-- Stats row -->
+      <div class="db-stats">
+        <div class="db-stat-card">
+          <div class="num">{{appointments.length}}</div>
+          <div class="lbl"><a href="/appointments" style="color:inherit;text-decoration:none;">Appointments</a></div>
+        </div>
+        <div class="db-stat-card">
+          <div class="num">{{prescriptions.length}}</div>
+          <div class="lbl"><a href="/prescriptions" style="color:inherit;text-decoration:none;">Prescriptions</a></div>
+        </div>
+      </div>
+
+
+      {{!-- ══════════ DOCTOR ══════════ --}}
+      {{#ifEquals message.role "doctor"}}
+
+        <div class="db-card">
+          <div class="db-card-title">Doctor Profile</div>
+          <div class="db-info-grid">
+            <div class="db-info-item"><label>Department</label><p>{{doctor.department}}</p></div>
+            <div class="db-info-item"><label>License Number</label><p>{{doctor.licenseNumber}}</p></div>
+            <div class="db-info-item"><label>Qualifications</label><p>{{doctor.qualifications}}</p></div>
+            <div class="db-info-item"><label>Years of Experience</label><p>{{doctor.yearsOfExperience}} years</p></div>
+            <div class="db-info-item"><label>Consultation Fee</label><p>₦{{doctor.consultationFee}}</p></div>
+            <div class="db-info-item"><label>Availability</label><p>{{doctor.availability}}</p></div>
+          </div>
+        </div>
+
+        <!-- Quick prescription shortcut -->
+        <div class="db-card">
+          <div class="db-card-title">Quick Prescription</div>
+          <form action="/prescriptions" method="POST">
+            <div class="db-select-wrap">
+              <select name="patientId" required>
+                <option value="" disabled selected>Select a patient…</option>
+                {{#each patients}}
+                  <option value="{{this._id}}">{{this.username}} — {{this.email}}</option>
+                {{/each}}
+              </select>
+            </div>
+            <a href="/prescriptions" class="btn-primary" style="display:inline-block;margin-top:10px;">Go to Prescriptions →</a>
+          </form>
+        </div>
+
+        <!-- Doctor's appointment requests snapshot -->
+        <div class="db-card">
+          <div class="db-card-title">Recent Appointment Requests
+            <a href="/appointments" style="margin-left:auto;font-size:0.82rem;color:var(--teal);font-weight:600;text-decoration:none;">View all →</a>
+          </div>
+          {{#if appointments.length}}
+          <div class="presc-list">
+            {{#each appointments}}
+            <div class="presc-item">
+              <div class="presc-item-header">
+                <span class="presc-med-name">{{this.patientId.username}}</span>
+                <span class="presc-badge" style="
+                  {{#ifEquals this.status 'accepted'}}background:rgba(0,180,166,0.12);color:var(--teal);{{/ifEquals}}
+                  {{#ifEquals this.status 'pending'}}background:rgba(245,166,35,0.12);color:var(--amber);{{/ifEquals}}
+                  {{#ifEquals this.status 'declined'}}background:rgba(220,38,38,0.1);color:#dc2626;{{/ifEquals}}
+                ">{{this.status}}</span>
+              </div>
+              <div class="presc-meta">
+                <div class="presc-meta-item">
+                  <label>Patient Email</label>
+                  <p>{{this.patientId.email}}</p>
+                </div>
+                <div class="presc-meta-item">
+                  <label>Date</label>
+                  <p>{{#if this.date}}{{this.date}}{{else}}Not yet set{{/if}}</p>
+                </div>
+              </div>
+            </div>
+            {{/each}}
+          </div>
+          {{else}}
+          <div class="empty-state" style="padding:30px 20px;">
+            <p>No appointment requests yet.</p>
+          </div>
+          {{/if}}
+        </div>
+
+      {{/ifEquals}}
+
+
+      {{!-- ══════════ PATIENT ══════════ --}}
+      {{#ifEquals message.role "patient"}}
+
+        <div class="db-card">
+          <div class="db-card-title">Your Health Summary</div>
+          <div class="db-alert db-alert-info">Your records are end-to-end encrypted and HIPAA compliant.</div>
+        </div>
+
+        <!-- Patient appointment snapshot -->
+        <div class="db-card">
+          <div class="db-card-title">My Appointments
+            <a href="/appointments" style="margin-left:auto;font-size:0.82rem;color:var(--teal);font-weight:600;text-decoration:none;">Book / View all →</a>
+          </div>
+          {{#if appointments.length}}
+          <div class="presc-list">
+            {{#each appointments}}
+            <div class="presc-item">
+              <div class="presc-item-header">
+                <span class="presc-med-name">Dr. {{this.doctorId.username}}</span>
+                <span class="presc-badge" style="
+                  {{#ifEquals this.status 'accepted'}}background:rgba(0,180,166,0.12);color:var(--teal);{{/ifEquals}}
+                  {{#ifEquals this.status 'pending'}}background:rgba(245,166,35,0.12);color:var(--amber);{{/ifEquals}}
+                  {{#ifEquals this.status 'declined'}}background:rgba(220,38,38,0.1);color:#dc2626;{{/ifEquals}}
+                ">{{this.status}}</span>
+              </div>
+              <div class="presc-meta">
+                <div class="presc-meta-item">
+                  <label>Department</label>
+                  <p>{{this.doctorId.department}}</p>
+                </div>
+                <div class="presc-meta-item">
+                  <label>Date</label>
+                  <p>{{#if this.date}}{{this.date}}{{else}}Awaiting confirmation{{/if}}</p>
+                </div>
+              </div>
+            </div>
+            {{/each}}
+          </div>
+          {{else}}
+          <div class="empty-state" style="padding:30px 20px;">
+            <div class="icon">📭</div>
+            <p>No appointments yet. <a href="/appointments" style="color:var(--teal);font-weight:600;">Book one →</a></p>
+          </div>
+          {{/if}}
+        </div>
+
+        <!-- Active prescriptions snapshot -->
+        <div class="db-card">
+          <div class="db-card-title">Active Prescriptions
+            <a href="/prescriptions" style="margin-left:auto;font-size:0.82rem;color:var(--teal);font-weight:600;text-decoration:none;">View all →</a>
+          </div>
+          {{#if prescriptions.length}}
+          <div class="presc-list">
+            {{#each prescriptions}}
+            <div class="presc-item">
+              <div class="presc-item-header">
+                <span class="presc-med-name">{{this.medicineName}}</span>
+                <span class="presc-badge">Ref: {{this.referralCode}}</span>
+              </div>
+              <div class="presc-meta">
+                <div class="presc-meta-item"><label>Dosage</label><p>{{this.dosage}}</p></div>
+                <div class="presc-meta-item"><label>Frequency</label><p>{{this.frequency}}</p></div>
+                <div class="presc-meta-item"><label>Prescribed by</label><p>Dr. {{this.doctorId.username}}</p></div>
+                {{#if this.notes}}
+                <div class="presc-meta-item" style="grid-column:1/-1;"><label>Notes</label><p>{{this.notes}}</p></div>
+                {{/if}}
+              </div>
+            </div>
+            {{/each}}
+          </div>
+          {{else}}
+          <div class="empty-state" style="padding:30px 20px;">
+            <p>No active prescriptions.</p>
+          </div>
+          {{/if}}
+        </div>
+
+      {{/ifEquals}}
+
+
+      {{!-- ══════════ PHARMACIST ══════════ --}}
+      {{#ifEquals message.role "pharmacist"}}
+        <div class="db-card">
+          <div class="db-card-title"> Pharmacist Overview</div>
+          <div class="db-info-grid">
+            <div class="db-info-item"><label>Pending Prescriptions</label><p>{{prescriptions.length}}</p></div>
+            <div class="db-info-item"><label>Medicines Catalog</label><p><a href="/medicines" style="color:var(--teal);font-weight:600;">Browse →</a></p></div>
+          </div>
+        </div>
+      {{/ifEquals}}
+
+    </main>
+  </div>
+
+  <script src="/main.js"></script>
 </body>
-</html> 
+</html>

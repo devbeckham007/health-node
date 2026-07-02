@@ -3,43 +3,96 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    crossorigin="anonymous"
-  />
-  <title>Prescriptions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <title>Medicines — HealthNode</title>
 </head>
-<body class="container mt-4">
-  <h2 class="mb-3">Prescriptions for {{message.username}}</h2>
-<form action="/medicines/search" method="post" class="mt-2">
-  <input type="text" name="name" placeholder="Enter medicine name" class="form-control mb-1">
-  <button type="submit" class="btn btn-primary">Search</button>
-</form>
+<body>
 
-{{#if medicine}}
-  <h2>Medicine Details</h2>
-  <p><strong>Product NDC:</strong> {{medicine.product_ndc}}</p>
-  <p><strong>Name:</strong> {{medicine.brand_name}}</p>
-  <p><strong>Generic:</strong> {{medicine.generic_name}}</p>
-  <p><strong>Manufacturer:</strong> {{medicine.manufacturer}}</p>
-  <p><strong>Dosage:</strong> {{medicine.dosage}}</p>
-  <p><strong>Strength:</strong> {{medicine.strength}}</p>
-  <form action="/payment" method="GET">
-    <button type="submit">Buy Now</button>
-  </form>
-{{/if}}
+  <div class="db-mobile-bar">
+    <a href="/" class="db-logo">Health<span>Node</span></a>
+    <button class="db-burger" onclick="document.querySelector('.db-sidebar').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 
-<ul>
-  {{#each medicines}}
-    <li>{{this.name}} - ₦{{this.price}}
-      <form action="/payment" method="GET">
-        <input type="hidden" name="drug" value="{{this.name}}">
-        <input type="hidden" name="amount" value="{{this.price}}">
-        <button type="submit">Buy Now</button>
-      </form>
-    </li>
-  {{/each}}
-</ul>
+  <div class="db-wrap">
+    <aside class="db-sidebar">
+      <a href="/" class="db-logo">Health<span>Node</span></a>
+      <span class="db-nav-label">Main</span>
+      <a href="/roleDashboard" class="db-nav-link">Dashboard</a>
+      <a href="/medicines"     class="db-nav-link active">Medicines</a>
+      <a href="/prescriptions" class="db-nav-link">Prescriptions</a>
+      <a href="/appointments"  class="db-nav-link"> Appointments</a>
+      <div class="db-sidebar-footer">
+        <form action="/logout" method="POST">
+          <button class="db-logout" type="submit">Logout</button>
+        </form>
+      </div>
+    </aside>
+
+    <main class="db-main">
+      <div class="page-header">
+        <h1>Medicines</h1>
+        <p>Search the drug database or browse available medicines for {{message.username}}</p>
+      </div>
+
+      <div class="search-card">
+        <h2>Search drug database</h2>
+        <form action="/medicines/search" method="POST">
+          <div class="search-row">
+            <input type="text" name="name" placeholder="Enter medicine name (e.g. Amoxicillin)…" class="search-input" required>
+            <button type="submit" class="btn-primary">Search</button>
+          </div>
+        </form>
+      </div>
+
+      {{#if medicine}}
+      <div class="medicine-result">
+        <h2>Result — {{medicine.brand_name}}</h2>
+        <div class="med-detail-grid">
+          <div class="med-detail-item"><label>Product NDC</label><p>{{medicine.product_ndc}}</p></div>
+          <div class="med-detail-item"><label>Generic Name</label><p>{{medicine.generic_name}}</p></div>
+          <div class="med-detail-item"><label>Manufacturer</label><p>{{medicine.manufacturer}}</p></div>
+          <div class="med-detail-item"><label>Dosage Form</label><p>{{medicine.dosage}}</p></div>
+          <div class="med-detail-item"><label>Strength</label><p>{{medicine.strength}}</p></div>
+        </div>
+        <form action="/payment" method="GET">
+          <button type="submit" class="btn-primary">Buy Now →</button>
+        </form>
+      </div>
+      {{/if}}
+
+      {{#if medicines.length}}
+      <div class="med-grid">
+        {{#each medicines}}
+        <div class="med-card">
+          <div class="med-card-top">
+            <span class="med-name">{{this.name}}</span>
+            <span class="med-price">₦{{this.price}}</span>
+          </div>
+          <div class="med-card-footer">
+            <form action="/payment" method="GET">
+              <input type="hidden" name="drug"   value="{{this.name}}">
+              <input type="hidden" name="amount" value="{{this.price}}">
+              <button type="submit" class="btn-primary" style="width:100%;">Buy Now →</button>
+            </form>
+          </div>
+        </div>
+        {{/each}}
+      </div>
+      {{else}}
+        {{#unless medicine}}
+        <div class="empty-state">
+          <p>Search for a medicine above to see results.</p>
+        </div>
+        {{/unless}}
+      {{/if}}
+    </main>
+  </div>
+
+  <script src="/main.js"></script>
 </body>
 </html>

@@ -8,15 +8,17 @@ const showRegisterForm = (req, res) => {
 
 const doctorProfile = async (req, res) => {
   try {
-    const { department, licenseNumber, qualifications, yearsOfExperience, consultationFee, availability } = req.body;
+    const { username, email, department, licenseNumber, qualifications, yearsOfExperience, consultationFee, availability } = req.body;
     const { userId } = req.params;
 
-    if (!department || !licenseNumber || !qualifications || !yearsOfExperience || !consultationFee || !availability) {
+    if (!username || !email || !department || !licenseNumber || !qualifications || !yearsOfExperience || !consultationFee || !availability) {
       return res.status(400).json({ error: "All fields are required" });
     }
 
     const newDoctor = new Doctor({
       userId,
+      username,
+      email,
       department,
       licenseNumber,
       qualifications: qualifications.split(","),
